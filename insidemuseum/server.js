@@ -7,6 +7,13 @@ const port = process.env.PORT || 3000
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
+// Translate
+const translate_test = require('./module/translate/translate');
+translate_test.translateJapaneseToVietnamese('こんにちは').then((res) => {
+    console.log(res);
+});
+
+console.log('RESTful API server started on: ' + port);
 let routes = require('./api/routes') //importing route
 routes(app)
 app.use(function(req,res) {
@@ -14,5 +21,4 @@ app.use(function(req,res) {
 })
 app.listen(port);
 
-console.log('RESTful API server started on: ' + port);
 

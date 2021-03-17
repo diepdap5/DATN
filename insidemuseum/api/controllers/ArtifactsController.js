@@ -12,7 +12,7 @@ module.exports = {
             querySnapshot.forEach((doc) => {
                 myList.push(doc.data());
             });
-            res.json({ data: myList});
+            res.json(myList);
         })
             .catch((error) => {
                 console.log("Error getting documents: ", error);
