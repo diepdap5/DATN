@@ -1,29 +1,32 @@
-// Get API list
+const handleData = require("./module/update_data/handleData");
+const update_data = require("./update_data");
 const api = require('./module/update_data/getArtifactData');
 const connect_to_db = require('./module/update_data/addDataToDB');
 
-api.getArtifactsList().then(async function(res) {
-    res.forEach(async function (artifact) {   
-        artifact["image_files"] = [];
-        await api.getArtifactsImageList(
-            artifact["organization_path_name"],
-            artifact["organization_item_key"]
-        )
-        .then(function(image_list){
-            artifact["image_files"] = image_list;
-        });
-        console.log(artifact);
-        connect_to_db.addArtifacts(artifact);
-    });
-    
-});
+update_data.updateData().then((res) => {
+    console.log("Finish update");
+})
+// handleData.deleteImage();
+// https://colbase.nich.go.jp/colbaseapi/v2/collection_items/kyohaku/M%E7%94%B2157-2?locale=ja
 
-
-
-// api.getArtifactsImageList("tnm","E-14439").then((res) => {
-//     console.log(res);
-// });
-// api.getArtifactsImage("https://colbase.nich.go.jp/media/tnm/P-2878/image/P-2878_E0056175.jpg")
-// .then((res) => {
-//     console.log("Done");
-// });
+// api.getArtifactsImageList(
+//     'kyohaku',
+//     'M%E7%94%B2157-2'
+// )
+//     .then(async function (image_list)
+//      {
+//         console.log(image_list);
+//         if (image_list.length == 0) {
+//             console.log("Artifact has no images");
+//         }
+//         await api.getArtifactsImage(image_list[0])
+//                             .then(async function (res) {
+//                                 connect_to_db.setImage(image_list[0])
+//                             })
+//                             .catch(function(err) {
+//                                 console.log(err);
+//                             })
+//     })
+//     .catch(function(err){
+//         console.log(err);
+//     })

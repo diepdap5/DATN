@@ -1,15 +1,17 @@
 'use strict'
 const axios = require('axios');
 const fs = require('fs');
+const handle = require('./handleData.js');
 module.exports = {
-    getArtifactsList: async function (word_ja) {
+    getArtifactsList: async function (organization_id) {
         var artifacts_arr = new Array();
-        for (let number_of_page = 1; number_of_page < 5; number_of_page++) {
+        for (let number_of_page = 1; number_of_page < 4; number_of_page++) {
             await axios({
                 method: 'get',
                 url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items?locale=ja&page="
                     + number_of_page
-                    + "&limit=100&with_image_file=1&only_parent=0&organization_id=1",
+                    + "&limit=100&with_image_file=1&only_parent=0&organization_id="
+                    + organization_id,
                 headers: { 'x-api-key': 'aaa' }
             })
                 .then(function (response) {
@@ -19,7 +21,6 @@ module.exports = {
                             artifacts_arr.push(artifact);
                         }
                     });
-                    console.log("Done page " + number_of_page);
                 })
                 .catch(function (error) {
                     // handle error
@@ -30,45 +31,64 @@ module.exports = {
     },
     getArtifactsImageList: async function (organization_path_name, organization_item_key) {
         var artifacts_image_arr = new Array();
-        await axios({
-            method: 'get',
-            url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items/"
-            + organization_path_name 
-            + "/" + organization_item_key
-            + "?locale=ja",
-            headers: { 'x-api-key': 'aaa' },
-        })
-            .then(function (response) {
-                // var artifacts_image_arr = new Array();
-                response.data.image_files.forEach(function (image) {
-                    artifacts_image_arr.push(image["url"]);
-                });
-                // artifacts_image_obj = {
-                //     organization_path_name: organization_path_name,
-                //     organization_item_key: organization_item_key,
-                //     image_url: artifacts_image_arr
-                // }
+        if (organization_path_name == 'kyohaku') {
+            organization_item_key = organization_item_key.replace('甲', '%E7%94%B2')
+            organization_item_key = organization_item_key.replace('乙', '%E4%B9%99')
+            await axios({
+                method: 'get',
+                url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items/" +
+                    organization_path_name +
+                    "/" + organization_item_key + "?locale=ja",
+                headers: { 'x-api-key': 'aaa' },
             })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
+                .then(function (response) {
+                    response.data.image_files.forEach(function (image) {
+                        artifacts_image_arr.push(image["url"]);
+                    });
+
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log('Error when taking image list of: ' +
+                        organization_path_name + '/' + organization_item_key);
+                })
+        }
+        else {
+            await axios({
+                method: 'get',
+                url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items/"
+                    + organization_path_name
+                    + "/" + organization_item_key
+                    + "?locale=ja",
+                headers: { 'x-api-key': 'aaa' },
             })
+                .then(function (response) {
+                    response.data.image_files.forEach(function (image) {
+                        artifacts_image_arr.push(image["url"]);
+                    });
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log('Error when taking image list of: ' +
+                        organization_path_name + '/' + organization_item_key);
+                })
+        }
         return artifacts_image_arr;
     },
-    getArtifactsImage: async function (image_url){
+    getArtifactsImage: async function (image_url) {
         await axios({
             method: 'get',
             url: image_url,
             headers: { 'x-api-key': 'aaa' },
             responseType: 'stream',
         })
-            .then(function (response) {
-                var image_name = image_url.split("/").pop();
-                response.data.pipe(fs.createWriteStream(image_name));
+            .then(async function (response) {
+                await handle.saveImage(response, image_url);
             })
             .catch(function (error) {
                 // handle error
-                console.log(error); 
+                console.log('Error when taking image: ' + image_url);
+                console.log(error);
             })
     }
 };

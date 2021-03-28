@@ -2,8 +2,10 @@
 
 const util = require('util')
 const mysql = require('mysql')
-const db = require('../db')
+const admin = require('../db')
+const db = admin.firestore();
 const { response } = require('express')
+
 
 module.exports = {
     get: (req, res) => {
