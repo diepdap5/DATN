@@ -2,10 +2,10 @@
   "name": "insidemuseum",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon run_model.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",

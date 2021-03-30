@@ -8,10 +8,10 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 // Translate
-const translate_test = require('./module/translate/translate');
-translate_test.translateJapaneseToVietnamese('こんにちは').then((res) => {
-    console.log(res);
-});
+// const translate_test = require('./module/translate/translate');
+// translate_test.translateJapaneseToVietnamese('こんにちは').then((res) => {
+//     console.log(res);
+// });
 
 console.log('RESTful API server started on: ' + port);
 let routes = require('./api/routes') //importing route
