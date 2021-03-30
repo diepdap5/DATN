@@ -75,7 +75,7 @@ module.exports = {
         }
         return artifacts_image_arr;
     },
-    getArtifactsImage: async function (image_url) {
+    getArtifactsImage: async function (organization_item_key,image_url) {
         await axios({
             method: 'get',
             url: image_url,
@@ -83,7 +83,7 @@ module.exports = {
             responseType: 'stream',
         })
             .then(async function (response) {
-                await handle.saveImage(response, image_url);
+                await handle.saveImage(response, organization_item_key,image_url);
             })
             .catch(function (error) {
                 // handle error

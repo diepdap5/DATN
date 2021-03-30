@@ -21,17 +21,17 @@ module.exports = {
                             }
                         })
                         .catch(function(err){
-                            console.log(err);
+                            console.log("Error when get image list");
                         })
-                    await connect_to_db.setArtifacts(artifact);
+                    // await connect_to_db.setArtifacts(artifact);
                     await new Promise(resolve => setTimeout(resolve, 5000));
                     for (var i = 0; i < artifact["image_files"].length; i++) {
-                        await api.getArtifactsImage(artifact["image_files"][i])
+                        await api.getArtifactsImage(artifact["organization_item_key"],artifact["image_files"][i])
                             .then(async function (res) {
-                                connect_to_db.setImage(artifact["image_files"][i])
+                                // connect_to_db.setImage(artifact["image_files"][i])
                             })
                             .catch(function(err) {
-                                console.log(err);
+                                console.log("Error when get arrtifact image");
                             })
                     }
                 });
