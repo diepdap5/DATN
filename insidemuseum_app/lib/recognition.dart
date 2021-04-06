@@ -13,9 +13,17 @@ class Recognition extends StatefulWidget {
 
 class _RecognitionState extends State<Recognition> {
   String objectName = "";
+  int check = 0;
   @override
   void initState() {
     super.initState();
+    _checkResults();
+  }
+
+  _checkResults() async {
+    if (check == 1) {
+      setState(() => check = 0);
+    }
   }
 
   @override
@@ -48,19 +56,19 @@ class _RecognitionState extends State<Recognition> {
       double offset = -10;
       return widget.results.map((re) {
         offset = offset + 14;
-        return
-            // Text(
-            //   "${re["label"]} ${(re["confidence"] * 100).toStringAsFixed(0)}%",
-            // );
-            Row(
+        // if (re["confidence"] >= 0.3) {
+        //   // setState(() => check = 1);
+        //   _showAlert(context);
+        // }
+        return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               flex: 6, // 60%
               child: Text(
-                renderClassName(re["label"]),
-                // "${re["label"]}",
+                // renderClassName(re["label"]),
+                "${re["label"]}",
                 style: TextStyle(fontSize: 17),
               ),
             ),

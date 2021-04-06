@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:insidemuseum_app/result.dart';
 import 'home.dart';
 import 'getDataFromAPI.dart';
 
@@ -20,8 +21,12 @@ Future<void> main() async {
   runApp(MaterialApp(
     title: 'Inside Museum',
     theme: ThemeData(
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
     ),
-    home: GetDataFromAPI(),
+    home: HomePage(cameras),
+    routes: {
+      '/home': (context) => HomePage(cameras),
+      '/result': (context) => ResultPage(),
+    },
   ));
 }
