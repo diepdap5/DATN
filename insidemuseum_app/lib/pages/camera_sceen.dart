@@ -1,9 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:insidemuseum_app/result.dart';
+import 'package:insidemuseum_app/pages/result_screen.dart';
+import 'package:insidemuseum_app/pages/test_ui/test_result_screen.dart';
 
-import 'camera.dart';
-import 'recognition.dart';
+import 'recognition/camera.dart';
+import 'recognition/recognition.dart';
 
 class CameraScreen extends StatefulWidget {
   final String model;
@@ -73,8 +74,10 @@ class _CameraScreenState extends State<CameraScreen> {
               // )
             ],
           )
-        : ResultPage(
-            model: widget.model,
-          );
+        :
+        // ResultPage(
+        //     model: widget.model,
+        //   );
+        CourseInfoScreen();
   }
 }

@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:insidemuseum_app/result.dart';
-import 'home.dart';
-import 'getDataFromAPI.dart';
+import 'package:insidemuseum_app/pages/result_screen.dart';
+import 'package:insidemuseum_app/pages/test_ui/test_result_screen.dart';
+import 'pages/home_screen.dart';
+import 'pages/result/getDataFromAPI.dart';
 
 List<CameraDescription> cameras;
 
@@ -19,6 +20,7 @@ Future<void> main() async {
   // final firstCamera = cameras.first;
 
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: 'Inside Museum',
     theme: ThemeData(
       brightness: Brightness.light,
@@ -26,7 +28,7 @@ Future<void> main() async {
     home: HomePage(cameras),
     routes: {
       '/home': (context) => HomePage(cameras),
-      '/result': (context) => ResultPage(),
+      '/result': (context) => CourseInfoScreen(),
     },
   ));
 }

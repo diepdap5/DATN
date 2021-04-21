@@ -23,5 +23,5 @@ module.exports = {
         fsExtra.emptyDirSync('image/kyuhaku/')
         fsExtra.emptyDirSync('image/narahaku/')
         fsExtra.emptyDirSync('image/tnm/')
-    }
+    },
 }
