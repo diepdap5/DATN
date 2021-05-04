@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:insidemuseum_app/pages/design_course_app_theme.dart';
 
 class Recognition extends StatefulWidget {
   final List<dynamic> results;
@@ -56,10 +57,6 @@ class _RecognitionState extends State<Recognition> {
       double offset = -10;
       return widget.results.map((re) {
         offset = offset + 14;
-        // if (re["confidence"] >= 0.3) {
-        //   // setState(() => check = 1);
-        //   _showAlert(context);
-        // }
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -69,15 +66,26 @@ class _RecognitionState extends State<Recognition> {
               child: Text(
                 // renderClassName(re["label"]),
                 "${re["label"]}",
-                style: TextStyle(fontSize: 17),
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  // fontWeight: FontWeight.w200,
+                  fontSize: 15,
+                  letterSpacing: 0.27,
+                  color: DesignCourseAppTheme.grey,
+                ),
               ),
             ),
             Expanded(
-              flex: 4, // 60%
+              flex: 2, // 60%
               child: Text(
                 "${(re["confidence"] * 100).toStringAsFixed(0)}%",
-                style: TextStyle(fontSize: 17),
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  // fontWeight: FontWeight.w200,
+                  fontSize: 15,
+                  letterSpacing: 0.27,
+                  color: DesignCourseAppTheme.grey,
+                ),
               ),
             ),
           ],

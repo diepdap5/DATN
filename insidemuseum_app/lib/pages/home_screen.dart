@@ -14,8 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _model = "";
-
+  String _museum;
+  List<dynamic> museumList = [
+    {"id": "1", "name": "Bảo tàng quốc gia Tokyo"},
+    {"id": "2", "name": "Bảo tàng quốc gia Kyoto"},
+    {"id": "3", "name": "Bảo tàng quốc gia Nara"},
+    {"id": "4", "name": "Bảo tàng quốc gia Kyushu"}
+  ];
   @override
   void initState() {
     super.initState();
@@ -27,9 +32,9 @@ class _HomePageState extends State<HomePage> {
         labels: "assets/model_dantochoc.txt");
   }
 
-  onSelect(model) {
+  onSelect(museum) {
     setState(() {
-      _model = model;
+      _museum = museum;
     });
     loadModel();
   }
@@ -37,44 +42,66 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _model == ""
+        body: _museum == null
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // RaisedButton(
-                    //   child: const Text("Start"),
-                    //   onPressed: () => onSelect("SSD MobileNet"),
-                    // ),
-                    InkWell(
-                      // splashColor: Colors.white24,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(24.0)),
-                      onTap: () {
-                        onSelect("SSD MobileNet");
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 12, bottom: 12, left: 18, right: 18),
-                        child: Center(
-                          child: Text(
-                            'Start',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12,
-                              letterSpacing: 0.27,
-                              color: DesignCourseAppTheme.nearlyBlue,
+                    Container(
+                      padding: EdgeInsets.only(
+                          right: 20, left: 60, top: 20, bottom: 20),
+                      child: Text(
+                        'Viện bảo tàng bạn muốn xem là: ',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 25,
+                          letterSpacing: 0.27,
+                          color: DesignCourseAppTheme.nearlyBlue,
+                        ),
+                      ),
+                    ),
+                    for (var museum in museumList)
+                      InkWell(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24.0)),
+                        onTap: () {
+                          onSelect(museum["id"]);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 5, bottom: 5, left: 18, right: 18),
+                          child: Center(
+                            child: Container(
+                              height: 50,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  color: DesignCourseAppTheme.nearlyWhite,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(24.0)),
+                                  border: Border.all(
+                                      color: DesignCourseAppTheme.nearlyBlue)),
+                              child: Center(
+                                child: Text(
+                                  museum["name"],
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    letterSpacing: 0.27,
+                                    color: DesignCourseAppTheme.nearlyBlue,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               )
             : CameraScreen(
-                model: _model,
+                model: _museum,
                 cameras: widget.cameras,
               ));
   }

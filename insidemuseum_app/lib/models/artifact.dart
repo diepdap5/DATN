@@ -21,7 +21,7 @@ class Artifact {
 Future<Artifact> fetchArtifact(String museumName, String artifactId) async {
   final response = await http.get(
       // Uri.http('192.168.182.196:3000', '/' + museumName + '/' + artifactId));
-      Uri.http('192.168.249.196:3000', '/' + museumName + '/' + artifactId));
+      Uri.http('192.168.23.196:3000', '/' + museumName + '/' + artifactId));
   if (response.statusCode == 200) {
     return Artifact.fromJson(jsonDecode(response.body));
   } else {

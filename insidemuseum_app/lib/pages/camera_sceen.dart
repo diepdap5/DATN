@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:insidemuseum_app/pages/design_course_app_theme.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
 import 'package:insidemuseum_app/pages/test_ui/test_result_screen.dart';
 
@@ -30,7 +31,7 @@ class _CameraScreenState extends State<CameraScreen> {
     final String used_model = ModalRoute.of(context).settings.arguments;
     if (_recognitions != null)
       for (var re in _recognitions)
-        if (re["confidence"] >= 0.3) {
+        if (re["confidence"] >= 0.7) {
           setState(() {
             _continueClassification = false;
           });
@@ -38,35 +39,62 @@ class _CameraScreenState extends State<CameraScreen> {
         }
 
     return _continueClassification == true
-        ? Column(
+        ? Stack(
             children: <Widget>[
-              Expanded(
-                flex: 8, // 80%
-                child: Camera(
-                  widget.cameras,
-                  used_model != null ? used_model : widget.model,
-                  setRecognitions,
-                ),
+              Camera(
+                widget.cameras,
+                used_model != null ? used_model : widget.model,
+                setRecognitions,
               ),
-              Expanded(
-                flex: 1, // 20%
+              Positioned(
+                top: (MediaQuery.of(context).size.width / 0.6),
+                bottom: 0,
+                left: 0,
+                right: 0,
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.pink[200],
-                  child: Column(
-                    children: [
-                      Text(
-                        'Recognition',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black.withOpacity(0.8),
-                            fontSize: 20),
-                      ),
-                      Recognition(
-                        _recognitions == null ? [] : _recognitions,
-                      ),
+                  decoration: BoxDecoration(
+                    color: DesignCourseAppTheme.nearlyWhite,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(32.0),
+                        topRight: Radius.circular(32.0)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: DesignCourseAppTheme.grey.withOpacity(0.2),
+                          offset: const Offset(1.1, 1.1),
+                          blurRadius: 10.0),
                     ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: SingleChildScrollView(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16, right: 16, bottom: 8, top: 16),
+                              child: Text(
+                                'Nhận diện',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  letterSpacing: 0.27,
+                                  color: DesignCourseAppTheme.nearlyBlue,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16, right: 16, bottom: 8, top: 16),
+                              child: Recognition(
+                                _recognitions == null ? [] : _recognitions,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),

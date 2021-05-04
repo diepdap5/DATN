@@ -35,8 +35,6 @@ class _CameraState extends State<Camera> {
         if (!mounted) {
           return;
         }
-        setState(() {});
-
         controller.startImageStream((CameraImage img) {
           if (!isDetecting) {
             isDetecting = true;
