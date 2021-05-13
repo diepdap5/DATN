@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:insidemuseum_app/pages/confirm_screen.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
-import 'package:insidemuseum_app/pages/test_ui/test_result_screen.dart';
 import 'pages/home_screen.dart';
 import 'pages/result/getDataFromAPI.dart';
 
@@ -25,9 +25,9 @@ Future<void> main() async {
     theme: ThemeData(
       brightness: Brightness.light,
     ),
-    home: HomePage(cameras),
+    home: HomePage(cameras, null),
     routes: {
-      '/home': (context) => HomePage(cameras),
+      '/home': (context) => HomePage(cameras, null),
       '/result': (context) => CourseInfoScreen(),
     },
   ));

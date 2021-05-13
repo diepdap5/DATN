@@ -53,10 +53,15 @@ class _RecognitionState extends State<Recognition> {
       return objectName;
     }
 
-    List<Widget> _renderStrings() {
+    Widget _renderStrings() {
       double offset = -10;
-      return widget.results.map((re) {
-        offset = offset + 14;
+
+      // return widget.results.map((re) {
+      //   offset = offset + 14;
+      if (widget.results.length == 0) {
+        return Container(color: Colors.white);
+      } else {
+        dynamic re = widget.results.first;
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -90,9 +95,13 @@ class _RecognitionState extends State<Recognition> {
             ),
           ],
         );
-      }).toList();
+      }
+      // }).toList();
     }
 
-    return Column(children: _renderStrings());
+    return
+        // Column(children:
+        _renderStrings();
+    //  );
   }
 }

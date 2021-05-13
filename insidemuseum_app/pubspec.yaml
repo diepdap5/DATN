@@ -24,6 +24,7 @@ dependencies:
   csv_reader: ^1.0.2
   csv:
   http: ^0.13.0
+  image: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -45,18 +46,8 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-   - assets/yolov2_tiny.tflite
-   - assets/yolov2_tiny.txt
-   - assets/ssd_mobilenet.tflite
-   - assets/ssd_mobilenet.txt
-   - assets/mobilenet_v1_1.0_224.tflite
-   - assets/mobilenet_v1_1.0_224.txt
-   - assets/posenet_mv1_075_float_from_checkpoints.tflite
-   - assets/model_label.txt
-   - assets/model.tflite
-   - assets/model_dantochoc.tflite
-   - assets/model_dantochoc.txt
-   - assets/model_dantochoc.csv
+   - assets/model_kyohaku.tflite
+   - assets/class_kyohaku.txt
    - assets/demo_image.jpg
    - assets/demo_image2.jpg
 
