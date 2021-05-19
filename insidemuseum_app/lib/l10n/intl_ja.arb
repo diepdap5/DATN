@@ -1,0 +1,13 @@
+{
+    "choosingMuseum": "あなたが見たい美術館は: " ,
+    "museumName1" : "東京国立博物館", 
+    "museumName2" : "京都国立博物館", 
+    "museumName3" : "奈良国立博物館", 
+    "museumName4" : "九州国立博物館",
+    "recognitionTitle": "認識",
+    "confirmArtifact" : "このアーティファクトを探していますか：",
+    "confirmTrue" : "はい",
+    "confirmFalse" : "いいえ",
+    "stayScreenAlert" : "画面に",
+    "stayScreenAlert2": "秒間留まってください"
+}

@@ -2,7 +2,11 @@ import tensorflow as tf
 import os
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 import splitfolders
-    
+import cv2
+
+def blur(img):
+    return (cv2.blur(img,(5,5)))
+
 def split_train_test_val(IMG_SIZE, data_path):
     datagen_kwargs = dict(rescale=1./255,
                       validation_split=.20,
@@ -11,6 +15,7 @@ def split_train_test_val(IMG_SIZE, data_path):
                       width_shift_range=0.2,
                       height_shift_range=0.2,
                       brightness_range=[0.2,1.0],
+                    #   preprocessing_function= blur
                        )
     valid_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         **datagen_kwargs)
@@ -51,4 +56,5 @@ def data_augmentation(inputs):
         tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
     ])
     return augmentation(inputs)
+
     

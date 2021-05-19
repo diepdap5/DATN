@@ -2,8 +2,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflow_hub as hub
 import numpy as np
-
-def create_base_model(num_classes):
+def create_base_model(num_classes, IMG_SIZE):
     model = tf.keras.Sequential([
         hub.KerasLayer('https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4',
                        output_shape=[1280],
@@ -12,10 +11,26 @@ def create_base_model(num_classes):
         tf.keras.layers.Dense(num_classes,
                               activation='softmax')
     ])
+    model.summary()
+    model.build([None, IMG_SIZE, IMG_SIZE, 3])
+    return model
+def create_base_model_2(num_classes, IMG_SIZE):
+    base_model = tf.keras.applications.MobileNetV2(weights='imagenet', include_top=False,
+                                          input_shape=(IMG_SIZE, IMG_SIZE, 3),
+                                          )
+    base_model.summary()
+    base_model.trainable = False
+    model = tf.keras.Sequential([
+        base_model,
+        tf.keras.layers.GlobalAveragePooling2D(),
+        tf.keras.layers.Dropout(0.4),
+        tf.keras.layers.Dense(num_classes, activation='softmax')
+    ])
+    model.summary()
     return model
 
-# Compile the model
 
+# Compile the model
 
 def compile_model(model, base_learning_rate):
     model.compile(optimizer=tf.keras.optimizers.Adam(lr=base_learning_rate),

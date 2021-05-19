@@ -1,18 +1,18 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:insidemuseum_app/main.dart';
 import 'package:insidemuseum_app/pages/confirm_screen.dart';
-import 'package:insidemuseum_app/pages/design_course_app_theme.dart';
-import 'package:insidemuseum_app/pages/result_screen.dart';
-
+import 'package:insidemuseum_app/util/design_course_app_theme.dart';
+import 'package:insidemuseum_app/generated/l10n.dart';
 import 'recognition/camera.dart';
 import 'recognition/recognition.dart';
 
 class CameraScreen extends StatefulWidget {
   final String model;
   final List<CameraDescription> cameras;
-
-  CameraScreen({this.model, this.cameras});
+  final DateTime startScreenTime;
+  CameraScreen({this.model, this.cameras, this.startScreenTime});
 
   @override
   _CameraScreenState createState() => new _CameraScreenState();
@@ -20,94 +20,121 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   List<dynamic> _recognitions;
-  bool _continueClassification = true;
+  String _recogResult = '';
   setRecognitions(recognitions, imageHeight, imageWidth) {
     setState(() {
       _recognitions = recognitions;
     });
   }
 
+  String done;
   int size = 360;
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final String used_model = ModalRoute.of(context).settings.arguments;
+    final String usedModel = ModalRoute.of(context).settings.arguments;
     if (_recognitions != null) {
       for (var re in _recognitions) {
-        if (re["confidence"] >= 0.5) {
+        if (re["confidence"] >= 0.4) {
           setState(() {
-            _continueClassification = false;
+            _recogResult = re["label"];
           });
           break;
         }
       }
     }
-
-    if (_continueClassification == true) {
-      return Stack(
-        children: <Widget>[
-          Camera(
-            widget.cameras,
-            used_model != null ? used_model : widget.model,
-            setRecognitions,
-          ),
-          Positioned(
-            top: (MediaQuery.of(context).size.width / 0.55),
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: DesignCourseAppTheme.nearlyWhite,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(32.0),
-                    topRight: Radius.circular(32.0)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: DesignCourseAppTheme.grey.withOpacity(0.2),
-                      offset: const Offset(1.1, 1.1),
-                      blurRadius: 10.0),
-                ],
+    if (widget.startScreenTime
+            .isBefore(DateTime.now().subtract(const Duration(seconds: 10))) ==
+        false) {
+      return Scaffold(
+        body: Stack(
+          children: <Widget>[
+            Camera(
+              widget.cameras,
+              usedModel != null ? usedModel : widget.model,
+              setRecognitions,
+            ),
+            Positioned(
+              top: (MediaQuery.of(context).size.width / 3.0),
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  S.of(context).stayScreenAlert +
+                      (10 -
+                              DateTime.now()
+                                  .difference(widget.startScreenTime)
+                                  .inSeconds)
+                          .toString() +
+                      S.of(context).stayScreenAlert2,
+                  style: TextStyle(
+                      color: DesignCourseAppTheme.nearlyBlue, fontSize: 20),
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 16, right: 16, bottom: 8, top: 16),
-                          child: Text(
-                            'Nhận diện',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 22,
-                              letterSpacing: 0.27,
-                              color: DesignCourseAppTheme.nearlyBlue,
+            ),
+            Positioned(
+              top: (MediaQuery.of(context).size.width / 0.55),
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: DesignCourseAppTheme.nearlyWhite,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(32.0),
+                      topRight: Radius.circular(32.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: DesignCourseAppTheme.grey.withOpacity(0.2),
+                        offset: const Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  child: SingleChildScrollView(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 16, bottom: 8, top: 16),
+                            child: Text(
+                              S.of(context).recognitionTitle,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 22,
+                                letterSpacing: 0.27,
+                                color: DesignCourseAppTheme.nearlyBlue,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 16, right: 16, bottom: 8, top: 16),
-                          child: Recognition(
-                            _recognitions == null ? [] : _recognitions,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 16, bottom: 8, top: 16),
+                            child: Recognition(
+                              _recognitions == null ? [] : _recognitions,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-
-          // )
-        ],
+          ],
+        ),
       );
     } else {
-      return ConfirmScreen(widget.model, widget.cameras);
+      return ConfirmScreen(widget.model, widget.cameras, _recogResult);
     }
   }
 }

@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:insidemuseum_app/pages/confirm_screen.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
 import 'pages/home_screen.dart';
-import 'pages/result/getDataFromAPI.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 List<CameraDescription> cameras;
 
@@ -22,13 +22,20 @@ Future<void> main() async {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Inside Museum',
+    localizationsDelegates: [
+      S.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: S.delegate.supportedLocales,
     theme: ThemeData(
       brightness: Brightness.light,
     ),
     home: HomePage(cameras, null),
     routes: {
       '/home': (context) => HomePage(cameras, null),
-      '/result': (context) => CourseInfoScreen(),
+      '/result': (context) => ResultScreen(),
     },
   ));
 }

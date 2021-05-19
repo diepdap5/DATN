@@ -22,17 +22,22 @@ dependencies:
   camera: 0.8.0
   tflite: ^1.1.1
   csv_reader: ^1.0.2
-  csv:
+  csv: null
   http: ^0.13.0
   image: ^3.0.2
+  floating_action_bubble: null
+  flutter_svg: null
+  flutter_localizations:
+    sdk: flutter
+  intl: null
+  circular_countdown_timer:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
+
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
@@ -46,17 +51,14 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-   - assets/model_kyohaku.tflite
-   - assets/class_kyohaku.txt
-   - assets/demo_image.jpg
-   - assets/demo_image2.jpg
-
+    - assets/model_kyohaku.tflite
+    - assets/class_kyohaku.txt
+    - assets/demo_image.jpg
+    - assets/demo_image2.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.io/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
@@ -76,3 +78,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

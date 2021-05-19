@@ -5,12 +5,12 @@ const handle = require('./handleData.js');
 module.exports = {
     getArtifactsList: async function (organization_id) {
         var artifacts_arr = new Array();
-        for (let number_of_page = 1; number_of_page < 2; number_of_page++) {
+        for (let number_of_page = 1; number_of_page < 5; number_of_page++) {
             await axios({
                 method: 'get',
                 url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items?locale=ja&page="
                     + number_of_page
-                    + "&limit=20&with_image_file=1&only_parent=0&organization_id="
+                    + "&limit=100&with_image_file=1&only_parent=0&organization_id="
                     + organization_id,
                 headers: { 'x-api-key': 'aaa' }
             })
@@ -28,7 +28,7 @@ module.exports = {
                 })
         }
         return artifacts_arr;
-    },
+    },   
     getArtifactsImageList: async function (organization_path_name, organization_item_key) {
         var artifacts_image_arr = new Array();
         if (organization_path_name == 'kyohaku') {
@@ -75,6 +75,47 @@ module.exports = {
         }
         return artifacts_image_arr;
     },
+    getArtifactsEnglish: async function (organization_path_name, organization_item_key) {
+        var artifact;
+        if (organization_path_name == 'kyohaku') {
+            organization_item_key = organization_item_key.replace('甲', '%E7%94%B2')
+            organization_item_key = organization_item_key.replace('乙', '%E4%B9%99')
+            await axios({
+                method: 'get',
+                url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items/" +
+                    organization_path_name +
+                    "/" + organization_item_key + "?locale=en",
+                headers: { 'x-api-key': 'aaa' },
+            })
+                .then(function (response) {
+                    artifact = response.data;
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log('Error when taking english data of: ' +
+                        organization_path_name + '/' + organization_item_key);
+                })
+        }
+        else {
+            await axios({
+                method: 'get',
+                url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items/"
+                    + organization_path_name
+                    + "/" + organization_item_key
+                    + "?locale=en",
+                headers: { 'x-api-key': 'aaa' },
+            })
+                .then(function (response) {
+                    artifact = response.data;
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log('Error when taking english data of: ' +
+                        organization_path_name + '/' + organization_item_key);
+                })
+        }
+        return artifact;
+    },
     getArtifactsImage: async function (organization_item_key,image_url) {
         await axios({
             method: 'get',
@@ -83,7 +124,7 @@ module.exports = {
             responseType: 'stream',
         })
             .then(async function (response) {
-                // await handle.saveImage(response, organization_item_key,image_url);
+                await handle.saveImage(response, organization_item_key,image_url);
             })
             .catch(function (error) {
                 // handle error

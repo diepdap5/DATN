@@ -11,6 +11,10 @@ module.exports = {
         var artifact_id = artifact["organization_path_name"] + "_" + artifact["organization_item_key"];
         db.collection('ethnology').doc(artifact_id).set(artifact);
     },
+    setArtifactsEnglish: function (artifact) {
+        var artifact_id = artifact["organization_path_name"] + "_" + artifact["organization_item_key"];
+        db.collection('museum_en').doc(artifact_id).set(artifact);
+    },
     setImage: async function (organization_item_key, image_url) {
         var image_file_path = image_url.split("/")[4];
         var image_name = image_url.split("/")[7];

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:insidemuseum_app/pages/design_course_app_theme.dart';
+import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 
 class Recognition extends StatefulWidget {
   final List<dynamic> results;

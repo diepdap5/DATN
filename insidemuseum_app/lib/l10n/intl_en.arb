@@ -1,0 +1,13 @@
+{
+    "choosingMuseum": "The museum you want to see is:",
+    "museumName1" : "Tokyo National Museum", 
+    "museumName2" : "Kyoto National Museum", 
+    "museumName3" : "Nara National Museum", 
+    "museumName4" : "Kyushu National Museum",
+    "recognitionTitle" : "Recognition",
+    "confirmArtifact" : "Are you looking for: ",
+    "confirmTrue" :  "Yes",
+    "confirmFalse": "No",
+    "stayScreenAlert" : "Please stay on the screen for ",
+    "stayScreenAlert2": " seconds"
+}
