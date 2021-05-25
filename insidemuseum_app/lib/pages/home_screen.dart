@@ -2,10 +2,9 @@ import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
-import 'package:insidemuseum_app/pages/camera_screen.dart';
+import 'package:insidemuseum_app/main.dart';
+import 'package:insidemuseum_app/pages/museum_screen.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
-import 'package:tflite/tflite.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 class HomePage extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -18,15 +17,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  String _museum;
   Animation<double> _animation;
   AnimationController _animationController;
-  List<dynamic> museumList = [
-    {"id": "1", "name": "Bảo tàng quốc gia Tokyo"},
-    {"id": "2", "name": "Bảo tàng quốc gia Kyoto"},
-    {"id": "3", "name": "Bảo tàng quốc gia Nara"},
-    {"id": "4", "name": "Bảo tàng quốc gia Kyushu"}
-  ];
   @override
   void initState() {
     _animationController = AnimationController(
@@ -40,27 +32,15 @@ class _HomePageState extends State<HomePage>
     super.initState();
   }
 
-  loadModel() async {
-    await Tflite.loadModel(
-        model: "assets/model_kyohaku.tflite",
-        labels: "assets/class_kyohaku.txt");
-  }
-
   onSelect(museum) {
-    loadModel();
-    // setState(() {
-    //   _museum = museum;
-    // });
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CameraScreen(
-            model: museum,
-            cameras: widget.cameras,
-            startScreenTime: DateTime.now()),
-      ),
+          builder: (context) => MuseumScreen(
+                museum: museum,
+                cameras: widget.cameras,
+              )),
     );
-    // loadModel();
   }
 
   @override

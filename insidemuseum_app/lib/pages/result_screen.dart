@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:insidemuseum_app/models/artifact.dart';
@@ -16,9 +17,11 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   Future<Artifact> futureArtifact;
+  List<String> museumList = ["tnm", "kyohaku", "narahaku", "kyuhaku"];
   @override
   void initState() {
-    futureArtifact = fetchArtifact(widget.museum, widget.artifactId);
+    futureArtifact = fetchArtifact(
+        museumList[int.parse(widget.museum) - 1], widget.artifactId);
     super.initState();
   }
 
@@ -44,8 +47,8 @@ class _ResultScreenState extends State<ResultScreen> {
                                     color: DesignCourseAppTheme.nearlyBlue,
                                     image: DecorationImage(
                                         fit: BoxFit.fill,
-                                        image: NetworkImage(
-                                            '${snapshot.data.imageNameList[0]}')),
+                                        image: MemoryImage(base64Decode(
+                                            snapshot.data.imageBase64List[0]))),
                                   ),
                                 ),
                               ),

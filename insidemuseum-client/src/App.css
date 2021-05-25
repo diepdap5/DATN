@@ -1,0 +1,49 @@
+@import '../node_modules/antd/dist/antd.css';
+
+.logo {
+  width: 120px;
+  height: 31px;
+  /* background: rgba(128, 71, 71, 0.3); */
+  color: white;
+  text-align: center;
+  /* margin: 16px 28px 16px 0; */
+  float: left;
+}
+
+.site-layout-background {
+  background: #fff;
+}
+
+.header-avatar {
+  /* float: right; */
+  /* align-items: center; */
+  width: 120px;
+  height: 31px;
+  background: rgba(128, 71, 71, 0.3);
+  margin: 16px 28px 16px 0;
+
+  /* padding-top: 10px; */
+}
+
+.site-page-header-ghost-wrapper {
+  background-color: #f5f5f5;
+  padding: 24px;
+}
+
+.fixedbutton {
+  position: fixed;
+  bottom: 50px;
+  right: 50px; 
+}
+
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 260px;
+  /* line-height: 160px; */
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}

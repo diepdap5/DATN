@@ -6,6 +6,11 @@ var bucket = admin.storage().bucket();
 const uuidv4 = require('uuid/v4');
 const uuid = uuidv4();
 
+// MongoDB
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
+var url = "mongodb://localhost:27017/";
+
 module.exports = {
     setArtifacts: function (artifact) {
         var artifact_id = artifact["organization_path_name"] + "_" + artifact["organization_item_key"];
@@ -53,6 +58,25 @@ module.exports = {
             + '/' + organization_item_key
             + '/' + image_url)
         await new Promise(resolve => setTimeout(resolve, 2000));
+    },
+    setArtifactsMongoDB: function (artifact) {
+        MongoClient.connect(url, function (err, client) {
+            if (err) {
+              console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {         
+              // Get the documents collection
+              var dbo = client.db("museum");
+              // Insert some users
+              dbo.collection('kyohaku_ja').insertOne(artifact, function (err, result) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log('Inserted ' + artifact["organization_path_name"] + '/' + artifact["organization_item_key"]);
+                }
+                client.close();
+              });
+            }
+          });
     }
 
 }

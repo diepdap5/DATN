@@ -9,5 +9,6 @@
     "confirmTrue" :  "Yes",
     "confirmFalse": "No",
     "stayScreenAlert" : "Please stay on the screen for ",
-    "stayScreenAlert2": " seconds"
+    "stayScreenAlert2": " seconds",
+    "searchPlaceholder": "Search..."
 }

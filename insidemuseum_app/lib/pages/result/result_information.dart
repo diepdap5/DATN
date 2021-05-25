@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:insidemuseum_app/models/artifact.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
@@ -18,7 +20,6 @@ class _ResultInformationState extends State<ResultInformation> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 32.0, left: 18, right: 16),
@@ -44,7 +45,6 @@ class _ResultInformationState extends State<ResultInformation> {
                     '${widget.artifact.jidai}',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      // fontWeight: FontWeight.w200,
                       fontSize: 22,
                       letterSpacing: 0.27,
                       color: DesignCourseAppTheme.nearlyBlue,
@@ -60,7 +60,6 @@ class _ResultInformationState extends State<ResultInformation> {
                 '${widget.artifact.descriptionText}',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  // fontWeight: FontWeight.w200,
                   fontSize: 14,
                   letterSpacing: 0.27,
                   color: DesignCourseAppTheme.grey,
@@ -72,7 +71,9 @@ class _ResultInformationState extends State<ResultInformation> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  for (var i = 0; i < widget.artifact.imageNameList.length; i++)
+                  for (var i = 0;
+                      i < widget.artifact.imageBase64List.length;
+                      i++)
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -88,8 +89,8 @@ class _ResultInformationState extends State<ResultInformation> {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                         fit: BoxFit.fill,
-                                        image: NetworkImage(
-                                            '${widget.artifact.imageNameList[i]}')),
+                                        image: MemoryImage(base64Decode(widget
+                                            .artifact.imageBase64List[i]))),
                                   ),
                                 ),
                               ),

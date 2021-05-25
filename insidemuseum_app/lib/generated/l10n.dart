@@ -144,6 +144,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Search...`
+  String get searchPlaceholder {
+    return Intl.message(
+      'Search...',
+      name: 'searchPlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

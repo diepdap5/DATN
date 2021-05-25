@@ -28,27 +28,26 @@ module.exports = {
                         })
                         
                     // Translate data
+                    // await api.getArtifactsEnglish(
+                    //     artifact["organization_path_name"],
+                    //     artifact["organization_item_key"])
+                    //     .then(async function (artifact_en) {
+                    //         console.log("(English) Update artifact: " + artifact["organization_item_key"]);
+                    //         await translate_feature.translateArtifactToEnglish(artifact_en, artifact).then(async function(res){
+                    //             artifact_en = res;
+                    //         })
+                    //             .catch(function (err) {
+                    //                 console.log("Translate fail");
+                    //             });
+                    //         await new Promise(resolve => setTimeout(resolve, 2000));
+                    //         await connect_to_db.setArtifactsEnglish(artifact_en);
 
-                    await api.getArtifactsEnglish(
-                        artifact["organization_path_name"],
-                        artifact["organization_item_key"])
-                        .then(async function (artifact_en) {
-                            console.log("(English) Update artifact: " + artifact["organization_item_key"]);
-                            await translate_feature.translateArtifactToEnglish(artifact_en, artifact).then(async function(res){
-                                artifact_en = res;
-                            })
-                                .catch(function (err) {
-                                    console.log("Translate fail");
-                                });
-                            await new Promise(resolve => setTimeout(resolve, 2000));
-                            await connect_to_db.setArtifactsEnglish(artifact_en);
+                    //     })
+                    //     .catch(function (err) {
+                    //         console.log("No english data for artifact " + artifact["organization_item_key"]);
+                    //     })
 
-                        })
-                        .catch(function (err) {
-                            console.log("No english data for artifact " + artifact["organization_item_key"]);
-                        })
-
-                    // await connect_to_db.setArtifacts(artifact);
+                    await connect_to_db.setArtifactsMongoDB(artifact);
                     // await new Promise(resolve => setTimeout(resolve, 5000));
                     // for (var i = 0; i < artifact["image_files"].length; i++) {
                     //     await api.getArtifactsImage(artifact["organization_item_key"], artifact["image_files"][i])

@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "museumName3" : MessageLookupByLibrary.simpleMessage("Nara National Museum"),
     "museumName4" : MessageLookupByLibrary.simpleMessage("Kyushu National Museum"),
     "recognitionTitle" : MessageLookupByLibrary.simpleMessage("Recognition"),
+    "searchPlaceholder" : MessageLookupByLibrary.simpleMessage("Search..."),
     "stayScreenAlert" : MessageLookupByLibrary.simpleMessage("Please stay on the screen for "),
     "stayScreenAlert2" : MessageLookupByLibrary.simpleMessage(" seconds")
   };

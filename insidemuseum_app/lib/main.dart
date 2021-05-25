@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
-import 'pages/home_screen.dart';
+import 'package:insidemuseum_app/pages/home_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
 
@@ -17,7 +17,6 @@ Future<void> main() async {
   final cameras = await availableCameras();
 
   // Get a specific camera from the list of available cameras.
-  // final firstCamera = cameras.first;
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,

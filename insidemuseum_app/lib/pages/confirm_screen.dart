@@ -43,8 +43,8 @@ class ConfirmScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ResultScreen(
-                    museum: 'kyohaku',
-                    artifactId: 'B甲104',
+                    museum: museum,
+                    artifactId: 'H甲24',
                   ),
                 ),
               );

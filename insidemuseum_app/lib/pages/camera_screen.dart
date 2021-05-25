@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:insidemuseum_app/pages/confirm_screen.dart';
+import 'package:insidemuseum_app/pages/museum_screen.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
 import 'recognition/camera.dart';
@@ -57,6 +58,28 @@ class _CameraScreenState extends State<CameraScreen> {
               widget.cameras,
               usedModel != null ? usedModel : widget.model,
               setRecognitions,
+            ),
+            Positioned(
+              top: 0.0,
+              left: 0.0,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_outlined,
+                      color: DesignCourseAppTheme.nearlyBlue,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MuseumScreen(
+                                  museum: widget.model,
+                                  cameras: widget.cameras,
+                                )),
+                      );
+                    }),
+              ),
             ),
             Positioned(
               top: (MediaQuery.of(context).size.width / 3.0),

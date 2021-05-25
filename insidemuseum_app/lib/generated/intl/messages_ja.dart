@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "museumName3" : MessageLookupByLibrary.simpleMessage("奈良国立博物館"),
     "museumName4" : MessageLookupByLibrary.simpleMessage("九州国立博物館"),
     "recognitionTitle" : MessageLookupByLibrary.simpleMessage("認識"),
+    "searchPlaceholder" : MessageLookupByLibrary.simpleMessage("検索..."),
     "stayScreenAlert" : MessageLookupByLibrary.simpleMessage("画面に"),
     "stayScreenAlert2" : MessageLookupByLibrary.simpleMessage("秒間留まってください")
   };
