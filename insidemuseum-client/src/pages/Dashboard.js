@@ -1,39 +1,37 @@
-import React, { Component }from 'react';
-import { Layout, Breadcrumb, Table, Space, Typography, Input, Button, notification} from 'antd';
+import React, { Component } from 'react';
+import {
+    Layout, Breadcrumb, Table, Space, Typography, Input, Button, Row, Dropdown, Menu,
+    
+} from 'antd';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-import AddMember from '../_components/_member/AddMember.js'
 
 
 const { Content } = Layout;
 const { Title } = Typography;
-
-
-
-
 class Dashboard extends Component {
 
     state = {
-        members: [],
+        artifacts: [],
         pagination: {
             current: 1,
-            pageSize: 10,
+            pageSize: 20,
         },
         loading: false,
         searchText: '',
-        searchedColumn: ''
+        searchedColumn: '',
+        language: 'ja'
     }
-
-
     componentDidMount() {
-        axios.get(`http://localhost:3000/kyohaku/ja`,{ crossDomain: true })
-        .then(response => {
-            const members = response.data;
-            this.setState({ members });
-        })
-        .catch(error => console.log(error));
-        
+        axios.get(`http://localhost:3000/kyohaku/ja/page/1`, { crossDomain: true })
+            .then(response => {
+                const artifacts = response.data;
+                this.setState({ artifacts });
+            })
+            .catch(error => console.log(error));
+
     }
 
     handleTableChange = (pagination) => {
@@ -46,7 +44,7 @@ class Dashboard extends Component {
 
     handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
-        this.setState({ 
+        this.setState({
             searchText: selectedKeys[0],
             searchedColumn: dataIndex,
         });
@@ -54,40 +52,15 @@ class Dashboard extends Component {
 
     handleReset = clearFilters => {
         clearFilters();
-        this.setState({ searchText: ''});
-    }
-    addMember = (newmem) =>{
-        this.state.members.push(newmem)
-    }
-    handleSubmit = (value,event) => {
-        axios.delete(`https://5ecdcfb77c528e00167cd7e5.mockapi.io/api/members/${value}`)
-            .then(res => {
-                notification.open({
-                    type: 'success',
-                    message: 'Success',
-                    description: 'delete success!',
-                    duration: 2
-                });
-            })
-            .catch((err)=>{
-                // alert("failed")
-                notification.open({
-                    type: 'error',
-                    message: 'Delete failed',
-                    description: 'Please try again',
-                    duration: 2
-                });
-            })
-        setTimeout(function(){
-            window.location.reload(); // you can pass true to reload function to ignore the client cache and reload from the server
-        },3000);
+        this.setState({ searchText: '' });
     }
 
+    
 
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-            <div style={{ padding: 8}}>
-                <Input 
+            <div style={{ padding: 8 }}>
+                <Input
                     ref={node => {
                         this.searchInput = node;
                     }}
@@ -95,7 +68,7 @@ class Dashboard extends Component {
                     value={selectedKeys[0]}
                     onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{ width:188, marginBottom: 8, display: 'block' }}
+                    style={{ width: 188, marginBottom: 8, display: 'block' }}
                 />
                 <Space>
                     <Button
@@ -103,17 +76,17 @@ class Dashboard extends Component {
                         onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
                         icon={<SearchOutlined />}
                         size="small"
-                        style={{ width: 90}}
+                        style={{ width: 90 }}
                     >
                         Search
                     </Button>
-                    <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90}}>
+                    <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
                         Reset
                     </Button>
                 </Space>
             </div>
         ),
-        filterIcon: filtered => <SearchOutlined style={{color: filtered ? '#1890ff' : undefined}}/>,
+        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
         onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
         onFilterDropdownVisibleChange: visible => {
             if (visible) {
@@ -126,65 +99,89 @@ class Dashboard extends Component {
                 searchWords={[this.state.searchText]}
                 autoEscape
                 textToHighlight={text.toString()}
-            />) : ( text ),
+            />) : (text),
     });
+    
+    handleMenuClick = ({key}) => {
+        this.setState({language: key});
+    }
 
     render() {
-
-        const { members, pagination, loading } = this.state;
+        const { artifacts, pagination, loading, language } = this.state;
         const columns = [
-            {
-                title: 'Title',
-                dataIndex: 'title',
-                key: 'title'
-            },
+            
             {
                 title: 'ID',
                 dataIndex: 'organization_item_key',
                 key: 'organization_item_key',
-                // render: text => <a>{text}</a>,
-                // ...this.getColumnSearchProps('name')
+                ...this.getColumnSearchProps('organization_item_key')
             },
             {
-                title: 'Museum',
-                dataIndex: 'organization_path_name',
-                key: 'organization_path_name'
+                title: 'Tên hiện vật',
+                dataIndex: 'title',
+                key: 'title',
+                sorter: (a, b) => a.title.localeCompare(b.title)
             },
-            // {
-            //     title: 'Working Parts',
-            //     dataIndex: 'bophan',
-            //     key: 'bophan'
-                
-            // },
-            // {
-            //     title: 'Competence',
-            //     dataIndex: 'chucvu',
-            //     key: 'chucvu',
-            //     ...this.getColumnSearchProps('chucvu')
-            // },
-            // {
-            //     title: 'Action',
-            //     key: 'action',
-            //     dataIndex: 'id',
-            //     render: text => (
-            //     <div>
-            //         <Button type="primary">
-            //             <Link to={`/drone-management/members/profile/${ text }`}>View</Link>
-            //         </Button>
-            //         <Popconfirm title={`Do you really want to delete this person?`} onConfirm={() => this.handleSubmit(text)} okText="Yes" cancelText="No">
-            //             <Button type="primary" danger >Delete</Button>
-            //         </Popconfirm>
-            //     </div>
-            //     )
-            // }
-        ];  
+            {
+                title: 'Loại tài sản văn hóa',
+                dataIndex: 'bunkazai',
+                key: 'bunkazai',
+            },
+            {
+                title: 'Thể loại',
+                dataIndex: 'bunrui',
+                key: 'bunrui',
+                sorter: (a, b) => a.bunrui.localeCompare(b.bunrui)
+            },
+            {
+                title: 'Niên đại',
+                dataIndex: 'jidai_seiki',
+                key: 'jidai_seiki'
+            },
+            {
+                title: 'Bảo tàng',
+                dataIndex: 'organization_title',
+                key: 'organization_title'
+            },
+            {
+                title: ' ',
+                key: 'action',
+                dataIndex: ['organization_item_key', 'organization_path_name'],
+                render: (text,row) => (
+                <div>
+                    <Button type="primary">
+                        <Link to={`/${row["organization_path_name"]}/${ row["organization_item_key"] }`}>Xem chi tiết</Link>
+                    </Button>
+                    {/* <Popconfirm title={`Do you really want to delete this person?`} onConfirm={() => this.handleSubmit(text)} okText="Yes" cancelText="No">
+                        <Button type="primary" danger >Delete</Button>
+                    </Popconfirm> */}
+                </div>
+                )
+            }
+        ];
+        let button;
+        if (language === 'en') {
+            button = <Button onClick={this.handleChangeLanguage}> Ngôn ngữ dữ liệu: Tiếng Anh </Button>;
+        } else if (language === 'ja') {
+            button = <Button onClick={this.handleChangeLanguage}> Ngôn ngữ dữ liệu: Tiếng Nhật</Button>;
+        }
+        else {
+            button = <Button onClick={this.handleChangeLanguage}> Ngôn ngữ dữ liệu: Tiếng Việt</Button>;
+        }
+        const menu = (
+            <Menu onClick={this.handleMenuClick}>
+                <Menu.Item key='en'> Tiếng Anh </Menu.Item>
+                <Menu.Item key='ja'> Tiếng Nhật </Menu.Item>
+                <Menu.Item key='vi'> Tiếng Việt </Menu.Item>
+            </Menu>
+        );
         return (
-            
             <div>
                 {/* {this.state.members} */}
                 <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+                    <Breadcrumb.Item>Quản lý dữ liệu / </Breadcrumb.Item>
                 </Breadcrumb>
+
                 <Content
                     className="site-layout-background"
                     style={{
@@ -193,19 +190,25 @@ class Dashboard extends Component {
                         minHeight: 1000,
                     }}
                 >
-                    <Title>Members Management</Title>
+                    <Title>Quản lý dữ liệu</Title>
+                    <Row>
+                        <Dropdown overlay={menu}>
+                            {button}
+                        </Dropdown>
+                    </Row>
+                    <br>
+                    </br>
                     <Table
                         columns={columns}
-                        dataSource={members}
+                        dataSource={artifacts}
                         pagination={pagination}
                         loading={loading}
                         onChange={this.handleTableChange}
                     />
-                    
+
                 </Content>
-                <AddMember id = {this.state.members.length+1} addMember = {this.addMember} />  
             </div>
-            
+
         );
     }
 }

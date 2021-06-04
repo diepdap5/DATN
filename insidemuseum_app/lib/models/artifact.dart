@@ -22,8 +22,8 @@ class Artifact {
 
 Future<Artifact> fetchArtifact(String museumName, String artifactId) async {
   String locale = Intl.getCurrentLocale();
-  final response = await http.get(Uri.http('192.168.153.196:3000',
-      '/' + museumName + '/' + 'ja' + '/' + artifactId));
+  final response = await http.get(Uri.http(
+      '192.168.56.196:3000', '/' + museumName + '/' + 'ja' + '/' + artifactId));
   if (response.statusCode == 200) {
     return Artifact.fromJson(jsonDecode(response.body));
   } else {

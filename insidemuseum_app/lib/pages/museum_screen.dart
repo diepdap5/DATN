@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
 import 'package:insidemuseum_app/models/artifact_demo.dart';
 import 'package:insidemuseum_app/pages/camera_screen.dart';
+import 'package:insidemuseum_app/pages/home_screen.dart';
 import 'package:insidemuseum_app/pages/search/artifact_list.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
@@ -75,8 +76,8 @@ class _MuseumScreenState extends State<MuseumScreen> {
 
   loadModel() async {
     await Tflite.loadModel(
-        model: "assets/model_kyohaku.tflite",
-        labels: "assets/class_kyohaku.txt");
+        model: "assets/model_kyohaku_2.tflite",
+        labels: "assets/class_kyohaku_2.txt");
   }
 
   onSelect(museum) {
@@ -108,7 +109,11 @@ class _MuseumScreenState extends State<MuseumScreen> {
             IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(widget.cameras, null),
+                    ));
               },
               color: DesignCourseAppTheme.nearlyBlue,
               iconSize: 40,

@@ -1,39 +1,16 @@
 'use strict'
-const path = require('path');
-const util = require('util')
-const mysql = require('mysql')
-const admin = require('../../db')
-const db = admin.firestore();
-var bucket = admin.storage().bucket();
-const { response } = require('express')
-const connect_db = require('../../module/update_data/connectDatabase')
 var fs = require('fs');
+const update_data = require("../../module/update_data/update_data");
+
 
 // MongoDB
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = "mongodb://localhost:27017/";
 
-async function getURL(museum_name, artifact_id, image_links) {
-    var image_name = image_links.split('/').pop();
-    var starsRef = bucket.file(museum_name + '/' + artifact_id + '/' + image_name);
-    var result;
-    await starsRef.getSignedUrl({
-        version: "v4",
-        action: "read",
-        expires: new Date(Date.now() + 5 * 60000),
-    })
-        .then((url) => {
-            result = url;
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    return result[0];
-};
 function transferImageToBase64(museum_name, artifact_id, image_links) {
     var image_name = image_links.split('/').pop();
-    var url = '/home/diepdn/DATN/insidemuseum/image/' + museum_name + '/' + artifact_id + '/' + image_name
+    var url = '/home/diepdn/DATN/image/' + museum_name + '/' + artifact_id + '/' + image_name
     var imageAsBase64 = fs.readFileSync(url, 'base64');
     return imageAsBase64;
 };
@@ -41,89 +18,6 @@ function transferImageToBase64(museum_name, artifact_id, image_links) {
 
 
 module.exports = {
-    get: (req, res) => {
-        var myList = new Array();
-        db.collection("ethnology").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                myList.push(doc.data());
-            });
-            res.json(myList);
-        })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
-    },
-    // get_data_by_id: async function (req, res) {
-    //     let museum_name = req.params.museum_name;
-    //     let artifact_id = req.params.artifact_id;
-    //     let doc_name = museum_name + '_' + artifact_id;
-    //     var locale = req.params.locale;
-    //     var artifact;
-    //     if (locale == 'ja') {
-    //         db.collection("ethnology").doc(doc_name).get().then(async (querySnapshot) => {
-    //             artifact = querySnapshot.data();
-    //             var image_list = artifact["image_files"];
-    //             artifact["image_files"] = [];
-    //             await image_list.forEach(async function (image_links) {
-    //                 await getURL(museum_name, artifact_id, image_links).then(async (res) => {
-    //                     artifact["image_files"].push(res);
-    //                 });
-    //                 console.log(artifact["image_files"]);
-    //             });
-    //             await new Promise(resolve => setTimeout(resolve, 5000));
-    //             console.log(artifact);
-    //             await res.json(artifact);
-    //         })
-    //             .catch((error) => {
-    //                 console.log("Error getting documents: ", error);
-    //             });
-    //     }
-    //     else {
-    //         var image_files;
-    //         await db.collection("ethnology").doc(doc_name).get().then(async (querySnapshot) => {
-    //             artifact = querySnapshot.data();
-    //             var image_list = artifact["image_files"];
-    //             artifact["image_files"] = [];
-    //             await image_list.forEach(async function (image_links) {
-    //                 await getURL(museum_name, artifact_id, image_links).then(async (res) => {
-    //                     artifact["image_files"].push(res);
-    //                 });
-    //                 console.log(artifact["image_files"]);
-    //             });
-    //             await new Promise(resolve => setTimeout(resolve, 5000));
-    //             image_files = await artifact["image_files"];
-    //         })
-    //             .catch((error) => {
-    //                 console.log("Error getting documents: ", error);
-    //             });
-    //         await db.collection("museum_en").doc(doc_name).get().then(async (querySnapshot) => {
-    //             artifact = querySnapshot.data();
-    //             artifact["image_files"] = image_files;
-    //             await new Promise(resolve => setTimeout(resolve, 5000));
-    //             console.log(artifact);
-    //             await res.json(artifact);
-    //         })
-    //             .catch((error) => {
-    //                 console.log("Error getting documents: ", error);
-    //             });
-
-    //     }
-
-
-    // },
-    get_image_by_id: async function (req, res) {
-        let museum_name = req.params.museum_name;
-        let artifact_id = req.params.artifact_id;
-        let image_name = req.params.image_name;
-        var starsRef = bucket.file(museum_name + '/' + artifact_id + '/' + image_name);
-        starsRef.getSignedUrl({
-            version: "v4",
-            action: "read",
-        })
-            .then((url) => {
-                res.json({ "image_network_url": url })
-            })
-    },
     get_all_artifacts: async function (req, res) {
         MongoClient.connect(url, async function (err, client) {
             if (err) {
@@ -167,7 +61,7 @@ module.exports = {
             }
         });
     },
-    get_all_artifacts_test3: async function (req, res) {
+    get_all_artifacts_pagination: async function (req, res) {
         MongoClient.connect(url, async function (err, client) {
             if (err) {
                 console.log('Unable to connect to the mongoDB server. Error:', err);
@@ -201,14 +95,82 @@ module.exports = {
                 let locale = req.params.locale;
                 let search_keyword = req.params.search_keyword;
                 // Search
-                const cursor = dbo.collection(museum_name + '_' + locale).find({'title': {'$regex': search_keyword}});
+                const cursor = dbo.collection(museum_name + '_' + locale).find({ 'title': { '$regex': search_keyword } });
                 const artifacts = await cursor.toArray();
                 artifacts.forEach(artifact => {
                     var image_base64 = transferImageToBase64(museum_name, artifact["organization_item_key"], artifact["image_files"][0])
-                    artifact["image_files"] = image_base64;   
-                })  
+                    artifact["image_files"] = image_base64;
+                })
                 console.log("Search results: " + artifacts.length.toString());
                 res.json(artifacts);
+                await client.close();
+            }
+        });
+    },
+    run_python: async function (req, res) {
+        var child = require('child_process').exec('python3 script1.py')
+        child.stdout.pipe(process.stdout)
+        child.on('close', function () {
+            console.log('Run done');
+            res.json({ "result": "Done python script" })
+            // process.exit()
+        })
+    },
+    update_museum_data: async function (req, res) {
+        let id_museum;
+        if (req.params.museum == 'tnm') {
+            id_museum = 1;
+        } else if (req.params.museum == 'kyohaku') {
+            id_museum = 2;
+        } else if (req.params.museum == 'narahaku') {
+            id_museum = 3;
+        } else {
+            id_museum = 4;
+        }
+        await update_data.updateData(id_museum).then((result) => {
+            res.json({ "result": "Done" });
+        })
+    },
+    getUpdateHistory: async function (req, res) {
+        MongoClient.connect(url, async function (err, client) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                // Get the documents collection
+                var dbo = client.db("museum");
+                // Find all history
+                const history_tnm = await dbo.collection('update_history').findOne(
+                    { museum_name: "tnm" },
+                    { sort: { modified_at: -1 } },
+                );
+                const history_kyohaku = await dbo.collection('update_history').findOne(
+                    { museum_name: "kyohaku" },
+                    { sort: { modified_at: -1 } },
+                );
+                const history_narahaku = await dbo.collection('update_history').findOne(
+                    { museum_name: "narahaku" },
+                    { sort: { modified_at: -1 } },
+                );
+                const history_kyuhaku = await dbo.collection('update_history').findOne(
+                    { museum_name: "kyuhaku" },
+                    { sort: { modified_at: -1 } },
+                );
+                var history = [history_tnm,history_kyohaku,history_narahaku,history_kyuhaku];
+                var count_tnm = await dbo.collection('tnm_ja').countDocuments({});
+                var count_kyohaku = await dbo.collection('kyohaku_ja').countDocuments({});
+                var count_narahaku = await dbo.collection('narahaku_ja').countDocuments({});
+                var count_kyuhaku = await dbo.collection('kyuhaku_ja').countDocuments({});
+                var count = {
+                    "tnm": count_tnm,
+                    "kyohaku" : count_kyohaku,
+                    "narahaku" : count_narahaku,
+                    "kyuhaku" : count_kyuhaku
+                }
+                var update_history = {
+                    "history": history,
+                    "count": count
+                }
+                res.json(update_history);
                 await client.close();
             }
         });

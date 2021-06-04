@@ -4,7 +4,6 @@ import axios from 'axios';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import { Link } from "react-router-dom";
-import AddMember from '../_components/_member/AddMember.js'
 
 
 const { Content } = Layout;
@@ -76,7 +75,7 @@ class MemberManagement extends Component {
                 });
             })
         setTimeout(function(){
-            window.location.reload(); // you can pass true to reload function to ignore the client cache and reload from the server
+            window.location.reload();
         },3000);
     }
 
@@ -201,7 +200,6 @@ class MemberManagement extends Component {
                     />
                     
                 </Content>
-                <AddMember id = {this.state.members.length+1} addMember = {this.addMember} />  
             </div>
             
         );

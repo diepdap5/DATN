@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Modal, Collapse } from 'antd';
+import { Layout, Menu } from 'antd';
 import { TeamOutlined, DashboardOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Members from "./pages/Members";
-import MemberProfile from "./_components/_member/MemberProfile";
+import DetailArtifact from "./pages/DetailArtifact";
+import UpdateArtifact from "./pages/UpdateArtifact";
+
 import './App.css';
-
-const { Sider, Footer } = Layout;
-const { Panel } = Collapse;
-function callback(key) {
-  console.log(key);
-}
-
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-
+const { SubMenu } = Menu;
+const { Sider } = Layout;
 class App extends Component {
   state = { visible: false };
 
@@ -51,7 +42,10 @@ class App extends Component {
               <Layout>
                 <Sider width={200} className="site-layout-background">
                   <Menu mode="inline" defaultSelectedKeys={['dashboard']} defaultOpenKeys={['dashboard']} style={{ height: '100%', borderRight: 0 }}>
-                    <Menu.Item key="dashboard" icon={<DashboardOutlined />}><Link to="/">Dashboard</Link></Menu.Item>
+                    <SubMenu key="data-management" icon={<DashboardOutlined />} title="Quản lý dữ liệu">
+                      <Menu.Item key="all-data"><Link to="/">Tổng hợp</Link></Menu.Item>
+                      <Menu.Item key="update-data"><Link to="/update">Cập nhật dữ liệu</Link></Menu.Item>
+                    </SubMenu>
                     <Menu.Item key="members" icon={<TeamOutlined />}><Link to="/members">Members</Link></Menu.Item>
                   </Menu>
                 </Sider>
@@ -62,55 +56,19 @@ class App extends Component {
                   <Route exact path="/members">
                     <Members />
                   </Route>
-                  <Route exact path="/members/profile/:id">
-                    <MemberProfile />
+                  <Route exact path="/:organization_path_name/:organization_item_key">
+                    <DetailArtifact />
+                  </Route>
+                  <Route exact path="/update">
+                    <UpdateArtifact />
                   </Route>
                 </Layout>
               </Layout>
             </Route>
           </Switch>
 
-          <Footer style={{ textAlign: 'center' }}>©Design Team: HI_08</Footer>
+          {/* <Footer style={{ textAlign: 'center' }}>© Design Team: HI_08</Footer> */}
         </Layout>
-        <div>
-          <Modal
-            title="Help"
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-          >
-            <Collapse onChange={callback}>
-              <Panel header="Location" key="1">
-                <ul>
-                  <li><h4>View</h4>{text}</li>
-                  <li><h4>Hover to drone</h4>{text}</li>
-                  <li><h4>Click to drone</h4>{text}</li>
-                </ul>
-              </Panel>
-              <Panel header="Drones" key="2">
-                <ul>
-                  <li><h4>View all</h4>{text}</li>
-                  <li><h4>Search drone</h4>{text}</li>
-                  <li><h4>Add drone</h4>{text}</li>
-                </ul>
-              </Panel>
-              <Panel header="Members" key="3">
-                <ul>
-                  <li><h4>View all</h4>{text}</li>
-                  <li><h4>Search member</h4>{text}</li>
-                  <li><h4>Add member</h4>{text}</li>
-                </ul>
-              </Panel>
-              <Panel header="Raw Data Analysis" key="4">
-                <ul>
-                  <li><h4>Filter Data</h4>{text}</li>
-                  <li><h4>Process Data</h4>{text}</li>
-                  <li><h4>Delete Data</h4>{text}</li>
-                </ul>
-              </Panel>
-            </Collapse>
-          </Modal>
-        </div>
       </Router>
 
     );

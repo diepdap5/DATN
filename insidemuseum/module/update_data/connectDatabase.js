@@ -1,82 +1,105 @@
 'use strict'
-const { File } = require('@google-cloud/storage');
-const admin = require('../../db')
-const db = admin.firestore()
-var bucket = admin.storage().bucket();
-const uuidv4 = require('uuid/v4');
-const uuid = uuidv4();
 
 // MongoDB
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = "mongodb://localhost:27017/";
 
-module.exports = {
-    setArtifacts: function (artifact) {
-        var artifact_id = artifact["organization_path_name"] + "_" + artifact["organization_item_key"];
-        db.collection('ethnology').doc(artifact_id).set(artifact);
-    },
-    setArtifactsEnglish: function (artifact) {
-        var artifact_id = artifact["organization_path_name"] + "_" + artifact["organization_item_key"];
-        db.collection('museum_en').doc(artifact_id).set(artifact);
-    },
-    setImage: async function (organization_item_key, image_url) {
-        var image_file_path = image_url.split("/")[4];
-        var image_name = image_url.split("/")[7];
-        await bucket.upload('image/'
-            + image_file_path
-            + '/' + organization_item_key
-            + '/' + image_name, {
-            destination: image_file_path + '/' + organization_item_key
-                + '/' + image_name,
-            resumable: true,
-            uploadType: '',
-            metadata: {
-                metadata: {
-                    firebaseStorageDownloadTokens: uuidv4(),
-                },
-                contentType: 'image/png',
-                cacheControl: 'public, max-age=31536000',
-            },
-        }).then((res) => {
-            console.log('Upload files ' + image_file_path + '/' + organization_item_key
-                + '/' + image_name)
-        })
-            .catch(function (err) {
-                console.log('Cannot upload ' + image_url + 'to Cloud Firestore')
-                console.log(err);
-            });
-    },
-    getImage: async function (organization_path_name, organization_item_key, image_url) {
-        const options = {
-            destination: 'api/controllers/tmp_image/tmp.jpg',
-        };
-        await bucket.file(organization_path_name
-            + '/' + organization_item_key
-            + '/' + image_url).download(options);
-        console.log('Downloaded ' + organization_path_name
-            + '/' + organization_item_key
-            + '/' + image_url)
-        await new Promise(resolve => setTimeout(resolve, 2000));
-    },
-    setArtifactsMongoDB: function (artifact) {
-        MongoClient.connect(url, function (err, client) {
+module.exports = {    
+    setArtifactsMongoDB: function (museum_name, locale, artifact) {
+        MongoClient.connect(url, async function (err, client) {
             if (err) {
-              console.log('Unable to connect to the mongoDB server. Error:', err);
-            } else {         
-              // Get the documents collection
-              var dbo = client.db("museum");
-              // Insert some users
-              dbo.collection('kyohaku_ja').insertOne(artifact, function (err, result) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log('Inserted ' + artifact["organization_path_name"] + '/' + artifact["organization_item_key"]);
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                // Get the documents collection
+                var dbo = client.db("museum");
+                // Remove exist data in collections
+                const cursor = dbo.collection(museum_name + '_' + locale).findOne({ organization_item_key: artifact["organization_item_key"] });
+                const finding = await cursor;
+
+                var update_log = await dbo.collection('update_history').findOne(
+                    {},
+                    { sort: { modified_at: -1 } },
+                  );
+                
+                if (finding != null) {
+                    // Remove exist
+                    dbo.collection(museum_name + '_' + locale).deleteOne({ organization_item_key: artifact["organization_item_key"] })
+                    // Save history
+                    update_log["changes"].push({
+                        "action" : "update",
+                        "item_key" : artifact["organization_item_key"],
+                        "locale": locale
+                    })
+                    await dbo.collection('update_history').updateOne(
+                        { modified_at: update_log["modified_at"] }, 
+                        {
+                            $set: {
+                              changes: update_log["changes"],
+                            },
+                          }, 
+                        );
                 }
-                client.close();
-              });
+                else{
+                    update_log["changes"].push({
+                        "action" : "insert",
+                        "item_key" : artifact["organization_item_key"],
+                        "locale": locale
+                    })
+                    await dbo.collection('update_history').updateOne(
+                        { modified_at: update_log["modified_at"] }, 
+                        {
+                            $set: {
+                              changes: update_log["changes"],
+                            },
+                          }, 
+                        );
+                }
+                // Insert all data in collections
+                dbo.collection(museum_name + '_' + locale).insertOne(artifact, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('Updated ' + museum_name + '_' + locale + '/' + artifact["organization_item_key"]);
+                    }
+                    client.close();
+                });
             }
-          });
-    }
+        });
+    },
+    setUpdateHistoryMongoDB: function (museum_id) {
+        MongoClient.connect(url, async function (err, client) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                let museum_name;
+                if (museum_id == 1) {
+                    museum_name = 'tnm' ;
+                } else if (museum_id == 2) {
+                    museum_name = 'kyohaku';
+                } else if (museum_id == 3) {
+                    museum_name = 'narahaku';
+                } else {
+                    museum_name = 'kyuhaku';
+                }
+                var history = {
+                    "museum_name": museum_name,
+                    "modified_at": new Date(),
+                    "changes": []
+                }
+                // Get the documents collection
+                var dbo = client.db("museum");
+                // Insert all data in collections
+                dbo.collection("update_history").insertOne(history, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('Created update records.');
+                    }
+                    client.close();
+                });
+            }
+        });
+    },
 
 }

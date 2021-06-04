@@ -6,14 +6,14 @@ module.exports = {
     saveImage: async function (image_stream, organization_item_key, image_url) {
         var image_file_path = image_url.split("/")[4];
         var image_name = image_url.split("/")[7];
-        await fs.mkdir('image/' + image_file_path + '/' +
+        await fs.mkdir('/home/diepdn/DATN/image/' + image_file_path + '/' +
             organization_item_key + '/', { recursive: true }, (err) => {
                 if (err) throw err;
             });
         await new Promise(resolve => setTimeout(resolve, 200));
 
         await image_stream.data.pipe(fs.createWriteStream(
-            'image/' +
+            '/home/diepdn/DATN/image/' +
             image_file_path + '/' +
             organization_item_key + '/' +
             image_name));

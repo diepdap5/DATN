@@ -21,7 +21,7 @@ class ArtifactDemo {
 
 Future<List<ArtifactDemo>> fetchArtifactDemo(String page) async {
   final response = await http
-      .get(Uri.http('192.168.153.196:3000', '/kyohaku/ja/page/' + page));
+      .get(Uri.http('192.168.56.196:3000', '/kyohaku/ja/page/' + page));
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => new ArtifactDemo.fromJson(data)).toList();
@@ -32,7 +32,7 @@ Future<List<ArtifactDemo>> fetchArtifactDemo(String page) async {
 
 Future<List<ArtifactDemo>> fetchSearch(String searchKeyword) async {
   final response = await http.get(
-      Uri.http('192.168.153.196:3000', '/kyohaku/ja/search/' + searchKeyword));
+      Uri.http('192.168.56.196:3000', '/kyohaku/ja/search/' + searchKeyword));
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => new ArtifactDemo.fromJson(data)).toList();
