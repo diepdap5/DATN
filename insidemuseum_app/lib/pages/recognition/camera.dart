@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
-import 'package:image/image.dart';
 import 'dart:math' as math;
 
 typedef void Callback(List<dynamic> list, int h, int w);
@@ -80,7 +79,6 @@ class _CameraState extends State<Camera> {
     var previewW = math.min(tmp.height, tmp.width);
     var screenRatio = screenH / screenW;
     var previewRatio = previewH / previewW;
-    var size = MediaQuery.of(context).size.width;
 
     return OverflowBox(
       maxHeight:

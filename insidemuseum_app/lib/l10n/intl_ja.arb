@@ -10,5 +10,7 @@
     "confirmFalse" : "いいえ",
     "stayScreenAlert" : "画面に",
     "stayScreenAlert2": "秒間留まってください",
-    "searchPlaceholder": "検索..."
+    "searchPlaceholder": "検索...", 
+    "image": "画像",
+    "relevantArtifact": "関連するアーティファクト"
 }

@@ -13,7 +13,7 @@ class DetailArtifact extends Component {
         const organization_item_key = this.props.match.params.organization_item_key;
         const organization_path_name = this.props.match.params.organization_path_name;
 
-        axios.get(`http://localhost:3000/` + organization_path_name + '/ja/' + organization_item_key, { crossDomain: true })
+        axios.get(`http://localhost:3000/getById/` + organization_path_name + '/ja/' + organization_item_key, { crossDomain: true })
             .then(response => {
                 var artifact;
                 artifact = response.data;

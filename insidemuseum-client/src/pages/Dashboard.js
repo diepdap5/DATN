@@ -25,7 +25,7 @@ class Dashboard extends Component {
         language: 'ja'
     }
     componentDidMount() {
-        axios.get(`http://localhost:3000/kyohaku/ja/page/1`, { crossDomain: true })
+        axios.get(`http://localhost:3000/getAllPagination/kyohaku/ja/page/1`, { crossDomain: true })
             .then(response => {
                 const artifacts = response.data;
                 this.setState({ artifacts });
@@ -150,7 +150,7 @@ class Dashboard extends Component {
                 render: (text,row) => (
                 <div>
                     <Button type="primary">
-                        <Link to={`/${row["organization_path_name"]}/${ row["organization_item_key"] }`}>Xem chi tiết</Link>
+                        <Link to={`/details/${row["organization_path_name"]}/${ row["organization_item_key"] }`}>Xem chi tiết</Link>
                     </Button>
                     {/* <Popconfirm title={`Do you really want to delete this person?`} onConfirm={() => this.handleSubmit(text)} okText="Yes" cancelText="No">
                         <Button type="primary" danger >Delete</Button>
@@ -204,6 +204,7 @@ class Dashboard extends Component {
                         pagination={pagination}
                         loading={loading}
                         onChange={this.handleTableChange}
+                        rowKey="organization_item_key"
                     />
 
                 </Content>

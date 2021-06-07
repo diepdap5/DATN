@@ -10,5 +10,7 @@
     "confirmFalse": "No",
     "stayScreenAlert" : "Please stay on the screen for ",
     "stayScreenAlert2": " seconds",
-    "searchPlaceholder": "Search..."
+    "searchPlaceholder": "Search...",
+    "image": "Image",
+    "relevantArtifact": "Relevant Artifact"
 }

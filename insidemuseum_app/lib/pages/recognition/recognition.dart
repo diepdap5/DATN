@@ -1,8 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:csv/csv.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 
 class Recognition extends StatefulWidget {
@@ -29,35 +25,7 @@ class _RecognitionState extends State<Recognition> {
 
   @override
   Widget build(BuildContext context) {
-    Future<String> getClassName(String classname) async {
-      List<List<dynamic>> data = [];
-      int result = 0;
-      final myData = await rootBundle.loadString("assets/model_dantochoc.csv");
-      List<List<dynamic>> csvTable = CsvToListConverter().convert(myData);
-
-      data = csvTable;
-      int len = data[0].length;
-      for (int i = 0; i < len; i++) {
-        if (data[0][i].replaceAll("\n", "").toString() ==
-            classname.toString()) {
-          result = i;
-        }
-      }
-      return data[0][result + 1];
-    }
-
-    String renderClassName(String classname) {
-      getClassName(classname).then((val) => setState(() {
-            objectName = val;
-          }));
-      return objectName;
-    }
-
     Widget _renderStrings() {
-      double offset = -10;
-
-      // return widget.results.map((re) {
-      //   offset = offset + 14;
       if (widget.results.length == 0) {
         return Container(color: Colors.white);
       } else {

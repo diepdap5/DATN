@@ -1,0 +1,16 @@
+{
+    "choosingMuseum": "Bảo tàng bạn đang tìm kiếm là: ",
+    "museumName1" : "Bảo tàng Quốc gia Tokyo", 
+    "museumName2" : "Bảo tàng Quốc gia Kyoto", 
+    "museumName3" : "Bảo tàng Quốc gia Nara", 
+    "museumName4" : "Bảo tàng Quốc gia Kyushu",
+    "recognitionTitle" : "Nhận diện",
+    "confirmArtifact" : "Có phải bạn đang tìm: ",
+    "confirmTrue" :  "Đúng",
+    "confirmFalse": "Không",
+    "stayScreenAlert" : "Hãy giữ nguyên trong ",
+    "stayScreenAlert2": " giây",
+    "searchPlaceholder": "Tìm kiếm...",
+    "image": "Hình ảnh",
+    "relevantArtifact": "Hiện vật liên quan"
+}

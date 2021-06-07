@@ -3,9 +3,9 @@ import { Layout, Menu } from 'antd';
 import { TeamOutlined, DashboardOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import Members from "./pages/Members";
 import DetailArtifact from "./pages/DetailArtifact";
 import UpdateArtifact from "./pages/UpdateArtifact";
+import UpdateModel from "./pages/UpdateModel";
 
 import './App.css';
 const { SubMenu } = Menu;
@@ -41,26 +41,26 @@ class App extends Component {
             <Route path="/">
               <Layout>
                 <Sider width={200} className="site-layout-background">
-                  <Menu mode="inline" defaultSelectedKeys={['dashboard']} defaultOpenKeys={['dashboard']} style={{ height: '100%', borderRight: 0 }}>
+                  <Menu mode="inline" defaultSelectedKeys={['data-management']} defaultOpenKeys={['data-management']} style={{ height: '100%', borderRight: 0 }}>
                     <SubMenu key="data-management" icon={<DashboardOutlined />} title="Quản lý dữ liệu">
-                      <Menu.Item key="all-data"><Link to="/">Tổng hợp</Link></Menu.Item>
-                      <Menu.Item key="update-data"><Link to="/update">Cập nhật dữ liệu</Link></Menu.Item>
+                      <Menu.Item key="alldata"><Link to="/">Tổng hợp</Link></Menu.Item>
+                      <Menu.Item key="updatedata"><Link to="/update_data">Cập nhật dữ liệu</Link></Menu.Item>
                     </SubMenu>
-                    <Menu.Item key="members" icon={<TeamOutlined />}><Link to="/members">Members</Link></Menu.Item>
+                    <Menu.Item key="updatemodel" icon={<TeamOutlined />}><Link to="/update_model">Quản lý mô hình</Link></Menu.Item>
                   </Menu>
                 </Sider>
                 <Layout style={{ padding: '0 24px 24px' }}>
                   <Route exact path="/">
                     <Dashboard />
                   </Route>
-                  <Route exact path="/members">
-                    <Members />
-                  </Route>
-                  <Route exact path="/:organization_path_name/:organization_item_key">
+                  <Route exact path="/details/:organization_path_name/:organization_item_key">
                     <DetailArtifact />
                   </Route>
-                  <Route exact path="/update">
+                  <Route exact path="/update_data">
                     <UpdateArtifact />
+                  </Route>
+                  <Route exact path="/update_model">
+                    <UpdateModel />
                   </Route>
                 </Layout>
               </Layout>

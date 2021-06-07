@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:insidemuseum_app/models/artifact.dart';
+import 'package:insidemuseum_app/pages/result/result_cover_image.dart';
 import 'package:insidemuseum_app/pages/result/result_information.dart';
 import '../util/design_course_app_theme.dart';
 
@@ -38,22 +39,10 @@ class _ResultScreenState extends State<ResultScreen> {
                     if (snapshot.hasData) {
                       return Stack(
                         children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              AspectRatio(
-                                aspectRatio: 1.2,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: DesignCourseAppTheme.nearlyBlue,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: MemoryImage(base64Decode(
-                                            snapshot.data.imageBase64List[0]))),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Cover Image
+                          CoverImage(
+                              base64Image: snapshot.data.imageBase64List[0]),
+                          // Information
                           Positioned(
                             top: (MediaQuery.of(context).size.width / 1.2) -
                                 24.0,
@@ -78,10 +67,12 @@ class _ResultScreenState extends State<ResultScreen> {
                                   padding:
                                       const EdgeInsets.only(left: 8, right: 8),
                                   child: ResultInformation(
+                                    museum: widget.museum,
                                     artifact: snapshot.data,
                                   )),
                             ),
                           ),
+                          // Back Button
                           Padding(
                             padding: EdgeInsets.only(
                                 top: MediaQuery.of(context).padding.top),

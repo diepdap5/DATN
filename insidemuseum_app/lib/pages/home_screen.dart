@@ -2,7 +2,6 @@ import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
-import 'package:insidemuseum_app/main.dart';
 import 'package:insidemuseum_app/pages/museum_screen.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 
@@ -112,7 +111,7 @@ class _HomePageState extends State<HomePage>
         items: <Bubble>[
           // Floating action menu item
           Bubble(
-            title: "Japanese",
+            title: "日本語",
             iconColor: Colors.white,
             bubbleColor: DesignCourseAppTheme.nearlyBlue,
             icon: Icons.language,
@@ -134,6 +133,19 @@ class _HomePageState extends State<HomePage>
             onPress: () {
               setState(() {
                 S.load(Locale('en'));
+              });
+              _animationController.reverse();
+            },
+          ),
+          Bubble(
+            title: "Tiếng Việt",
+            iconColor: Colors.white,
+            bubbleColor: DesignCourseAppTheme.nearlyBlue,
+            icon: Icons.language,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              setState(() {
+                S.load(Locale('vi'));
               });
               _animationController.reverse();
             },

@@ -5,12 +5,12 @@ const handle = require('./handleData.js');
 module.exports = {
     getArtifactsList: async function (organization_id) {
         var artifacts_arr = new Array();
-        for (let number_of_page = 1; number_of_page < 2; number_of_page++) {
+        for (let number_of_page = 1; number_of_page < 10; number_of_page++) {
             await axios({
                 method: 'get',
                 url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items?locale=ja&page="
                     + number_of_page
-                    + "&limit=10&with_image_file=1&only_parent=0&organization_id="
+                    + "&limit=100&with_image_file=1&only_parent=0&organization_id="
                     + organization_id,
                 headers: { 'x-api-key': 'aaa' }
             })

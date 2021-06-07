@@ -25,11 +25,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmArtifact" : MessageLookupByLibrary.simpleMessage("このアーティファクトを探していますか："),
     "confirmFalse" : MessageLookupByLibrary.simpleMessage("いいえ"),
     "confirmTrue" : MessageLookupByLibrary.simpleMessage("はい"),
+    "image" : MessageLookupByLibrary.simpleMessage("画像"),
     "museumName1" : MessageLookupByLibrary.simpleMessage("東京国立博物館"),
     "museumName2" : MessageLookupByLibrary.simpleMessage("京都国立博物館"),
     "museumName3" : MessageLookupByLibrary.simpleMessage("奈良国立博物館"),
     "museumName4" : MessageLookupByLibrary.simpleMessage("九州国立博物館"),
     "recognitionTitle" : MessageLookupByLibrary.simpleMessage("認識"),
+    "relevantArtifact" : MessageLookupByLibrary.simpleMessage("関連するアーティファクト"),
     "searchPlaceholder" : MessageLookupByLibrary.simpleMessage("検索..."),
     "stayScreenAlert" : MessageLookupByLibrary.simpleMessage("画面に"),
     "stayScreenAlert2" : MessageLookupByLibrary.simpleMessage("秒間留まってください")

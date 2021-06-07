@@ -1,16 +1,37 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:insidemuseum_app/models/result_api_id.dart';
 import 'package:insidemuseum_app/pages/camera_screen.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
 
-class ConfirmScreen extends StatelessWidget {
+class ConfirmScreen extends StatefulWidget {
   final String museum;
   final List<CameraDescription> cameras;
   final String _recogResult;
 
   ConfirmScreen(this.museum, this.cameras, this._recogResult);
+
+  @override
+  _ConfirmScreenState createState() => _ConfirmScreenState();
+}
+
+class _ConfirmScreenState extends State<ConfirmScreen> {
+  ArtifactID artifactID;
+  List<String> museumList = ["tnm", "kyohaku", "narahaku", "kyuhaku"];
+
+  @override
+  void initState() {
+    _loadArtifactID(
+        museumList[int.parse(widget.museum) - 1], widget._recogResult);
+    super.initState();
+  }
+
+  _loadArtifactID(String museum, String title) async {
+    artifactID = await fetchArtifactID(museum, title);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +43,7 @@ class ConfirmScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(S.of(context).confirmArtifact),
-              Text(_recogResult,
+              Text(widget._recogResult,
                   style: TextStyle(
                     fontSize: 22,
                     letterSpacing: 0.27,
@@ -43,8 +64,8 @@ class ConfirmScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ResultScreen(
-                    museum: museum,
-                    artifactId: 'H甲24',
+                    museum: widget.museum,
+                    artifactId: artifactID.itemKey,
                   ),
                 ),
               );
@@ -61,8 +82,8 @@ class ConfirmScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => CameraScreen(
-                    model: museum,
-                    cameras: cameras,
+                    model: widget.museum,
+                    cameras: widget.cameras,
                     startScreenTime: DateTime.now(),
                   ),
                 ),

@@ -21,7 +21,7 @@ class MuseumScreen extends StatefulWidget {
 class _MuseumScreenState extends State<MuseumScreen> {
   StreamController<List<ArtifactDemo>> _streamArtifactDemoController;
   List<ArtifactDemo> artifactList;
-
+  List<String> museumList = ["tnm", "kyohaku", "narahaku", "kyuhaku"];
   bool isLoading = false;
   int pageCount = 1;
   void setMoreData(bool _reachEnd) {
@@ -59,18 +59,20 @@ class _MuseumScreenState extends State<MuseumScreen> {
 
   void _loadArtifact(int i) async {
     if (i == 1) {
-      artifactList = await fetchArtifactDemo('1');
+      artifactList = await fetchArtifactDemo(
+          museumList[int.parse(widget.museum) - 1], '1');
       _streamArtifactDemoController.add(artifactList);
     } else {
-      List<ArtifactDemo> artifactListNext =
-          await fetchArtifactDemo(i.toString());
+      List<ArtifactDemo> artifactListNext = await fetchArtifactDemo(
+          museumList[int.parse(widget.museum) - 1], i.toString());
       artifactList = artifactList + artifactListNext;
       _streamArtifactDemoController.add(artifactList);
     }
   }
 
   void _showSearchResult(String searchKeyword) async {
-    List<ArtifactDemo> result = await fetchSearch(searchKeyword);
+    List<ArtifactDemo> result = await fetchSearch(
+        museumList[int.parse(widget.museum) - 1], searchKeyword);
     _streamArtifactDemoController.add(result);
   }
 

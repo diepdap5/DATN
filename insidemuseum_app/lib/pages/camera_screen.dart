@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:insidemuseum_app/pages/confirm_screen.dart';
 import 'package:insidemuseum_app/pages/museum_screen.dart';
+import 'package:insidemuseum_app/pages/recognition/choosing.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
 import 'recognition/camera.dart';
@@ -21,7 +20,8 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   List<dynamic> _recognitions;
-  String _recogResult = '';
+  // String _recogResult = '';
+  List<dynamic> _recogResultList = [];
   setRecognitions(recognitions, imageHeight, imageWidth) {
     setState(() {
       _recognitions = recognitions;
@@ -42,7 +42,8 @@ class _CameraScreenState extends State<CameraScreen> {
       for (var re in _recognitions) {
         if (re["confidence"] >= 0.4) {
           setState(() {
-            _recogResult = re["label"];
+            // _recogResult = re["label"];
+            _recogResultList.add(re);
           });
           break;
         }
@@ -157,7 +158,8 @@ class _CameraScreenState extends State<CameraScreen> {
         ),
       );
     } else {
-      return ConfirmScreen(widget.model, widget.cameras, _recogResult);
+      return ConfirmScreen(
+          widget.model, widget.cameras, choosingResult(_recogResultList));
     }
   }
 }

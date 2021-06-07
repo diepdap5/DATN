@@ -25,11 +25,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmArtifact" : MessageLookupByLibrary.simpleMessage("Are you looking for: "),
     "confirmFalse" : MessageLookupByLibrary.simpleMessage("No"),
     "confirmTrue" : MessageLookupByLibrary.simpleMessage("Yes"),
+    "image" : MessageLookupByLibrary.simpleMessage("Image"),
     "museumName1" : MessageLookupByLibrary.simpleMessage("Tokyo National Museum"),
     "museumName2" : MessageLookupByLibrary.simpleMessage("Kyoto National Museum"),
     "museumName3" : MessageLookupByLibrary.simpleMessage("Nara National Museum"),
     "museumName4" : MessageLookupByLibrary.simpleMessage("Kyushu National Museum"),
     "recognitionTitle" : MessageLookupByLibrary.simpleMessage("Recognition"),
+    "relevantArtifact" : MessageLookupByLibrary.simpleMessage("Relevant Artifact"),
     "searchPlaceholder" : MessageLookupByLibrary.simpleMessage("Search..."),
     "stayScreenAlert" : MessageLookupByLibrary.simpleMessage("Please stay on the screen for "),
     "stayScreenAlert2" : MessageLookupByLibrary.simpleMessage(" seconds")
