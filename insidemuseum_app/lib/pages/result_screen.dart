@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:insidemuseum_app/models/artifact.dart';
-import 'package:insidemuseum_app/pages/result/result_cover_image.dart';
-import 'package:insidemuseum_app/pages/result/result_information.dart';
+import 'package:insidemuseum_app/pages/_component/result/result_cover_image.dart';
+import 'package:insidemuseum_app/pages/_component/result/result_information.dart';
+import 'package:insidemuseum_app/util/web_service.dart';
 import '../util/design_course_app_theme.dart';
 
 class ResultScreen extends StatefulWidget {

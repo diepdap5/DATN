@@ -1,9 +1,3 @@
-import 'package:http/http.dart' as http;
-import 'package:insidemuseum_app/util/globals.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:intl/intl.dart';
-
 class Artifact {
   final String title;
   final String descriptionText;
@@ -24,16 +18,5 @@ class Artifact {
         jidai: json['jidai_seiki'],
         imageBase64List: json['image_files'],
         relevantArtifact: json['relevant']);
-  }
-}
-
-Future<Artifact> fetchArtifact(String museumName, String artifactId) async {
-  String locale = Intl.getCurrentLocale();
-  final response = await http.get(Uri.http(
-      serverLink, '/getById/' + museumName + '/' + locale + '/' + artifactId));
-  if (response.statusCode == 200) {
-    return Artifact.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load Artifact');
   }
 }

@@ -2,11 +2,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:insidemuseum_app/pages/confirm_screen.dart';
 import 'package:insidemuseum_app/pages/museum_screen.dart';
-import 'package:insidemuseum_app/pages/recognition/choosing.dart';
+import 'package:insidemuseum_app/pages/_component/recognition/choosing.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
-import 'recognition/camera.dart';
-import 'recognition/recognition.dart';
+import 'package:insidemuseum_app/pages/_component/recognition/camera.dart';
+import 'package:insidemuseum_app/pages/_component/recognition/recognition.dart';
 
 class CameraScreen extends StatefulWidget {
   final String model;

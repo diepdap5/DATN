@@ -4,9 +4,10 @@ import 'package:insidemuseum_app/generated/l10n.dart';
 import 'package:insidemuseum_app/models/artifact_demo.dart';
 import 'package:insidemuseum_app/pages/camera_screen.dart';
 import 'package:insidemuseum_app/pages/home_screen.dart';
-import 'package:insidemuseum_app/pages/search/artifact_list.dart';
+import 'package:insidemuseum_app/pages/_component/museum/artifact_list.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
+import 'package:insidemuseum_app/util/web_service.dart';
 import 'dart:async';
 import 'package:tflite/tflite.dart';
 
@@ -233,6 +234,7 @@ class _MuseumScreenState extends State<MuseumScreen> {
                           height: MediaQuery.of(context).size.height,
                           child: Column(
                             children: <Widget>[
+                              // Museum name
                               Container(
                                 padding: EdgeInsets.all(8.0),
                                 alignment: Alignment.center,

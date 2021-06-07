@@ -5,6 +5,7 @@ import 'package:insidemuseum_app/pages/camera_screen.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
+import 'package:insidemuseum_app/util/web_service.dart';
 
 class ConfirmScreen extends StatefulWidget {
   final String museum;

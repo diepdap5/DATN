@@ -2,6 +2,7 @@ import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
+import 'package:insidemuseum_app/pages/_component/home/museum_name_component.dart';
 import 'package:insidemuseum_app/pages/museum_screen.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 
@@ -70,39 +71,11 @@ class _HomePageState extends State<HomePage>
               {"id": "4", "name": S.of(context).museumName4}
             ])
               InkWell(
-                borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                onTap: () {
-                  onSelect(museum["id"]);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5, bottom: 5, left: 18, right: 18),
-                  child: Center(
-                    child: Container(
-                      height: 50,
-                      width: 300,
-                      decoration: BoxDecoration(
-                          color: DesignCourseAppTheme.nearlyWhite,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(24.0)),
-                          border: Border.all(
-                              color: DesignCourseAppTheme.nearlyBlue)),
-                      child: Center(
-                        child: Text(
-                          museum["name"],
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            letterSpacing: 0.27,
-                            color: DesignCourseAppTheme.nearlyBlue,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+                  borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+                  onTap: () {
+                    onSelect(museum["id"]);
+                  },
+                  child: MuseumNameComponent(museumName: museum["name"])),
           ],
         ),
       ),
