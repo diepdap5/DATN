@@ -20,9 +20,11 @@ module.exports = {
             if (err) {
                 console.log('Unable to connect to the mongoDB server. Error:', err);
             } else {
+                
                 // Get the documents collection
                 var dbo = client.db("museum");
                 let locale = req.params.locale;
+                console.log("Get data all from database in " + locale);
                 // Find all 
                 const cursor = dbo.collection('tnm_' + locale).find({});
                 const artifacts_tnm = await cursor.toArray();
@@ -38,7 +40,7 @@ module.exports = {
 
                 var artifacts = artifacts_tnm.concat(artifacts_kyohaku, artifacts_narahaku, artifacts_kyuhaku)
                 artifacts = artifacts.sort(() => Math.random() - 0.5);
-                console.log(artifacts);
+                console.log('Get ' + artifacts.length);
                 res.json(artifacts);
                 await client.close();
             }

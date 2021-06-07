@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Breadcrumb, Col, Row, Typography, Select, Button, Spin } from 'antd';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import { Bar } from "react-chartjs-2";
+import HistoryComponent from "../_components/updateArtifact/history_component"
 const { Content } = Layout;
 const { Title } = Typography;
 const { Option } = Select;
@@ -30,24 +30,23 @@ class UpdateArtifact extends Component {
                     update_history.count["narahaku"],
                     update_history.count["kyuhaku"]],
                     timing: {
-                        "Tokyo National Museum": update_history.history[0].modified_at,
-                        "Kyoto National Museum": update_history.history[1].modified_at,
-                        "Nara National Museum": update_history.history[2].modified_at,
-                        "Kyushu National Museum": update_history.history[3].modified_at
+                        "Bảo tàng Quốc gia Tokyo": update_history.history[0].modified_at,
+                        "Bảo tàng Quốc gia Kyoto": update_history.history[1].modified_at,
+                        "Bảo tàng Quốc gia Nara": update_history.history[2].modified_at,
+                        "Bảo tàng Quốc gia Kyushu": update_history.history[3].modified_at
                     }
                 });
 
             })
             .catch(error => console.log(error));
 
-        console.log("hahahahahah")
         console.log(this.state.update_museum)
     }
 
     render() {
-        console.log(this.state.update_museum.value);
-        console.log(this.state.timing["Tokyo National Museum"]);
-        const { timing, loading, update_museum } = this.state;
+        // console.log(this.state.update_museum.value);
+        // console.log(this.state.timing["Tokyo National Museum"]);
+        const { loading, update_museum } = this.state;
         let loadingStatus;
         if (loading === 2) {
             loadingStatus = <Button type="primary" onClick={(value) => {
@@ -58,9 +57,9 @@ class UpdateArtifact extends Component {
         }
         else if (loading === 1) {
             loadingStatus = <Spin size="large" />
-            console.log('hahahaha')
-            console.log(update_museum.value)
-            console.log("tada")
+            // console.log('hahahaha')
+            // console.log(update_museum.value)
+            // console.log("tada")
             axios.put(`http://localhost:3000/update/` + update_museum.value)
                 .then(response => {
                     console.log(response);
@@ -71,7 +70,7 @@ class UpdateArtifact extends Component {
                 .catch(error => console.log(error));
         }
         else {
-            loadingStatus = <p style={{color: 'green'}}>Request update successfully! Updated date will be avaiable in few minutes</p>
+            loadingStatus = <p style={{color: 'green'}}>Đã cập nhật yêu cầu thành công! Dữ liệu cập nhật sẽ có sau vài phút</p>
         }
         return (
             <div>
@@ -82,60 +81,7 @@ class UpdateArtifact extends Component {
 
                 <Row>
                     <Col span={15}>
-                        <Content
-                            style={{
-                                padding: 10,
-                                margin: 0,
-                                minHeight: 500,
-                                backgroundColor: 'white'
-                            }}
-                        >
-                            <div style={{ textAlign: 'center' }}>
-                                <Title level={2}>Lịch sử cập nhật</Title>
-                            </div>
-                            <Bar
-                                data={{
-                                    labels: [
-                                        "Tokyo National Museum",
-                                        "Kyoto National Museum",
-                                        "Nara National Museum",
-                                        "Kyushu National Museum",
-                                    ],
-                                    datasets: [
-                                        {
-                                            label: "Số lượng hiện vật",
-                                            backgroundColor: [
-                                                "#3e95cd",
-                                            ],
-                                            data: this.state.records_list
-                                        }
-                                    ]
-                                }}
-                                options={{
-                                    plugins: {
-                                        tooltip: {
-                                            callbacks: {
-                                                label: function (context) {
-                                                    var label = context.labels || '';
-                                                    var museum = context.label
-
-                                                    var ISOTime = timing[museum]
-                                                    var year_month_date = ISOTime.split("T")[0];
-                                                    var hour_minute_second = ISOTime.split("T")[1];
-                                                    hour_minute_second = hour_minute_second.split(".")[0];
-                                                    var timeString = year_month_date + "  " + hour_minute_second;
-
-                                                    label = label + ' '
-                                                        + context.formattedValue + ' records '
-                                                        + 'at ' + timeString;
-                                                    return label;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }}
-                            />
-                        </Content>
+                        <HistoryComponent records_list={this.state.records_list} timing={this.state.timing}/>
                     </Col>
                     <Col span={9}>
                         <Content
@@ -162,10 +108,10 @@ class UpdateArtifact extends Component {
                                         })
                                     }}
                                 >
-                                    <Option value="tnm">Tokyo National Museum</Option>
-                                    <Option value="kyohaku">Kyoto National Museum</Option>
-                                    <Option value="narahaku">Nara National Museum</Option>
-                                    <Option value="kyuhaku">Kyushu National Museum</Option>
+                                    <Option value="tnm">Bảo tàng Quốc gia Tokyo</Option>
+                                    <Option value="kyohaku">Bảo tàng Quốc gia Kyoto</Option>
+                                    <Option value="narahaku">Bảo tàng Quốc gia Nara</Option>
+                                    <Option value="kyuhaku">Bảo tàng Quốc gia Kyushu</Option>
                                 </Select>
                                 <br></br>
                                 <br></br>

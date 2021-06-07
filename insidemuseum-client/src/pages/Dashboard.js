@@ -25,13 +25,12 @@ class Dashboard extends Component {
         language: 'ja'
     }
     componentDidMount() {
-        axios.get(`http://localhost:3000/getAllPagination/kyohaku/ja/page/1`, { crossDomain: true })
+        axios.get(`http://localhost:3000/getAll/`+ this.state.language, { crossDomain: true })
             .then(response => {
                 const artifacts = response.data;
                 this.setState({ artifacts });
             })
             .catch(error => console.log(error));
-
     }
 
     handleTableChange = (pagination) => {
@@ -54,9 +53,6 @@ class Dashboard extends Component {
         clearFilters();
         this.setState({ searchText: '' });
     }
-
-    
-
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -103,6 +99,12 @@ class Dashboard extends Component {
     });
     
     handleMenuClick = ({key}) => {
+        axios.get(`http://localhost:3000/getAll/`+ key, { crossDomain: true })
+            .then(response => {
+                const artifacts = response.data;
+                this.setState({ artifacts });
+            })
+            .catch(error => console.log(error));
         this.setState({language: key});
     }
 
@@ -152,21 +154,18 @@ class Dashboard extends Component {
                     <Button type="primary">
                         <Link to={`/details/${row["organization_path_name"]}/${ row["organization_item_key"] }`}>Xem chi tiết</Link>
                     </Button>
-                    {/* <Popconfirm title={`Do you really want to delete this person?`} onConfirm={() => this.handleSubmit(text)} okText="Yes" cancelText="No">
-                        <Button type="primary" danger >Delete</Button>
-                    </Popconfirm> */}
                 </div>
                 )
             }
         ];
         let button;
         if (language === 'en') {
-            button = <Button onClick={this.handleChangeLanguage}> Ngôn ngữ dữ liệu: Tiếng Anh </Button>;
+            button = <Button > Ngôn ngữ dữ liệu: Tiếng Anh </Button>;
         } else if (language === 'ja') {
-            button = <Button onClick={this.handleChangeLanguage}> Ngôn ngữ dữ liệu: Tiếng Nhật</Button>;
+            button = <Button > Ngôn ngữ dữ liệu: Tiếng Nhật</Button>;
         }
         else {
-            button = <Button onClick={this.handleChangeLanguage}> Ngôn ngữ dữ liệu: Tiếng Việt</Button>;
+            button = <Button > Ngôn ngữ dữ liệu: Tiếng Việt</Button>;
         }
         const menu = (
             <Menu onClick={this.handleMenuClick}>
