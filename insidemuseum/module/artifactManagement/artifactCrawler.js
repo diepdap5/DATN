@@ -1,16 +1,16 @@
 'use strict'
 const axios = require('axios');
-const fs = require('fs');
-const handle = require('./handleData.js');
+const storageRepo = require('./../../repositories/storage.js');
+
 module.exports = {
     getArtifactsList: async function (organization_id) {
         var artifacts_arr = new Array();
-        for (let number_of_page = 1; number_of_page < 10; number_of_page++) {
+        for (let number_of_page = 1; number_of_page < 3; number_of_page++) {
             await axios({
                 method: 'get',
                 url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items?locale=ja&page="
                     + number_of_page
-                    + "&limit=100&with_image_file=1&only_parent=0&organization_id="
+                    + "&limit=50&with_image_file=1&only_parent=0&organization_id="
                     + organization_id,
                 headers: { 'x-api-key': 'aaa' }
             })
@@ -28,7 +28,7 @@ module.exports = {
                 })
         }
         return artifacts_arr;
-    },   
+    },
     getArtifactsImageList: async function (organization_path_name, organization_item_key) {
         var artifacts_image_arr = new Array();
         if (organization_path_name == 'kyohaku') {
@@ -112,20 +112,53 @@ module.exports = {
         }
         return artifact;
     },
-    getArtifactsImage: async function (organization_item_key,image_url) {
-        await axios({
+    getImage: async function (organization_item_key,image_url) {
+        var response = await axios({
             method: 'get',
             url: image_url,
             headers: { 'x-api-key': 'aaa' },
             responseType: 'stream',
         })
-            .then(async function (response) {
-                await handle.saveImage(response, organization_item_key,image_url);
+            .then( function (response) {
+                // console.log(response)
+                // await storageRepo.saveImage(response, organization_item_key, image_url);
+                return response;
             })
             .catch(function (error) {
-                // handle error
-                console.log('Error when taking image: ' + image_url);
-                console.log(error);
-            })
+                console.log("Got error")
+                console.log(error)
+            });
+        return response;
+        // await axios({
+        //     method: 'get',
+        //     url: image_url,
+        //     headers: { 'x-api-key': 'aaa' },
+        //     responseType: 'stream',
+        // })
+        //     .then( function (response) {
+        //         // await storageRepo.saveImage(response, organization_item_key, image_url);
+        //         // console.log(response)
+        //         return response;
+        //     })
+        //     .catch(function (error) {
+        //         console.log("Got error")
+        //         console.log(error)
+        //     });
+        // await axios({
+        //     method: 'get',
+        //     url: image_url,
+        //     headers: { 'x-api-key': 'aaa' },
+        //     responseType: 'stream',
+        // })
+        //     .then( function (response) {
+        //         // await storageRepo.saveImage(response, organization_item_key, image_url);
+        //         // console.log(response)
+
+        //         return response;
+        //     })
+        //     .catch(function (error) {
+        //         console.log("Got error")
+        //         console.log(error)
+        //     });
     }
 };
