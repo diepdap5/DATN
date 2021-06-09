@@ -44,7 +44,7 @@ class UpdateArtifact extends Component {
     }
 
     render() {
-        // console.log(this.state.update_museum.value);
+        console.log(this.state.update_museum.value);
         // console.log(this.state.timing["Tokyo National Museum"]);
         const { loading, update_museum } = this.state;
         let loadingStatus;

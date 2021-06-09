@@ -15,9 +15,6 @@ module.exports = {
 
         // Get the documents collection
         var dbo = client.db(DB_NAME);
-        // Remove exist data in collections
-        dbo.collection(col).deleteMany({})
-
         // Insert all data in collections
         dbo.collection(col).insertOne(artifact, function (err, result) {
             if (err) {
@@ -27,8 +24,41 @@ module.exports = {
             }
 
         });
-
     },
+    deleteCollections: async function (col) {
+        var museum_name = '';
+        if(museum_id == 1){
+            museum_name = 'tnm'
+        }
+        else if (museum_id ==2){
+            museum_name = 'kyohaku'
+        }
+        else if (museum_id ==2){
+            museum_name = 'narahaku'
+        }
+        else if (museum_id ==2){
+            museum_name = 'kyuhaku'
+        }
+        else{
+            museum_name = ''
+        }
+        const client = await MongoClient.connect(url, { useNewUrlParser: true })
+            .catch(err => { console.log(err); });
+        if (!client) {
+            return;
+        }
+        if (museum_name != ''){
+             // Get the documents collection
+            var dbo = client.db(DB_NAME);
+            // Remove exist data in collections
+            dbo.collection(col + '_ja').deleteMany({});
+            dbo.collection(col + '_en').deleteMany({});
+            dbo.collection(col + '_vi').deleteMany({});
+
+        }
+       
+    },
+
     getLocaleCollection: async function (locale) {
         const client = await MongoClient.connect(url, { useNewUrlParser: true })
             .catch(err => { console.log(err); });

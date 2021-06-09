@@ -14,7 +14,7 @@ module.exports = {
                     artifact_en["descriptions"][0]["text"] = res.text;
                     artifact_en["descriptions"][0]["locale"] = 'en';
                 }).catch(err => {
-                    console.log("Error translation english : ", err);
+                    console.log("Error translation english for: " +  artifact_ja["organization_item_key"]);
                 });
         }
         return artifact_en;
@@ -29,7 +29,7 @@ module.exports = {
                 artifact_vi["descriptions"][0]["text"] = res.text;
                 artifact_vi["descriptions"][0]["locale"] = 'vi';
             }).catch(err => {
-                console.log("Error translation vietnamese: ", err);
+                console.log("Error translation vietnamese: "+ artifact_ja["organization_item_key"]);
             });
         // Title 
         if (artifact_ja["title"] != null) {
@@ -37,7 +37,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["title"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
 
@@ -47,7 +47,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["bunkazai"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // Bunrui 
@@ -56,7 +56,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["bunrui"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // insuu 
@@ -65,7 +65,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["insuu"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // seisakuchi 
@@ -74,7 +74,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["seisakuchi"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // jidai_seiki 
@@ -83,7 +83,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["jidai_seiki"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // sakusha 
@@ -92,7 +92,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["sakusha"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // hinshitu_keijo 
@@ -101,7 +101,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["hinshitu_keijo"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // houryo 
@@ -110,7 +110,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["houryo"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // organization_title
@@ -119,7 +119,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["organization_title"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: ", err);
+                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
 
@@ -135,7 +135,7 @@ module.exports = {
                 artifact_en["descriptions"][0]["text"] = res.text;
                 artifact_en["descriptions"][0]["locale"] = 'en';
             }).catch(err => {
-                console.log("Error translation english: ", err);
+                console.log("Error translation english: " + artifact_ja["organization_item_key"]);
             });
         // Title 
         if (artifact_ja["title"] != null) {
@@ -143,7 +143,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["title"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
 
@@ -153,7 +153,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["bunkazai"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
         // Bunrui 
@@ -162,7 +162,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["bunrui"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
         // insuu 
@@ -171,7 +171,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["insuu"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
         // seisakuchi 
@@ -180,7 +180,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["seisakuchi"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
         // jidai_seiki 
@@ -189,7 +189,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["jidai_seiki"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
         // sakusha 
@@ -198,7 +198,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["sakusha"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
         // hinshitu_keijo 
@@ -207,7 +207,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["hinshitu_keijo"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
         // houryo 
@@ -216,7 +216,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["houryo"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
         // organization_title
@@ -225,7 +225,7 @@ module.exports = {
                 .then((res) => {
                     artifact_en["organization_title"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation english: ", err);
+                    console.log("Error translation english: "+ artifact_ja["organization_item_key"]);
                 });
         }
 

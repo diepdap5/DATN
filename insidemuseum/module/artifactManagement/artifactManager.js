@@ -19,6 +19,7 @@ function transferImageToBase64(museum_name, artifact_id, image_links) {
 };
 module.exports = {
     updateData: async function (museum_id) {
+        databaseRepo.deleteCollections(museum_id)
         storageRepo.deleteImage(museum_id)
         await artifactCrawler.getArtifactsList(museum_id).then(async function (res) {
             console.log("Update museum with id: " + museum_id);
@@ -38,56 +39,56 @@ module.exports = {
                         if (image_list.length == 0) {
                             console.log("Artifact has no images");
                         }
-                        // saveArtifact(artifact["organization_path_name"], 'ja', artifact);
+                        saveArtifact(artifact["organization_path_name"], 'ja', artifact);
                     })
                     .catch(function (err) {
                         console.log("Error when get image list");
                     })
                 await new Promise(resolve => setTimeout(resolve, 3000));
                 // Translate data to English
-                // await artifactCrawler.getArtifactsEnglish(
-                //     artifact["organization_path_name"],
-                //     artifact["organization_item_key"])
-                //     .then(async function (artifact_en) {
-                //         if (artifact_en != null) {
-                //             artifact_en["image_files"] = artifact["image_files"];
-                //             await artifactTranslator.translateArtifactToEnglish(artifact_en, artifact)
-                //                 .then(async function (res) {
-                //                     artifact_en = res;
-                //                     await new Promise(resolve => setTimeout(resolve, 3000));
-                //                     saveArtifact(artifact_en["organization_path_name"], 'en', artifact_en);
-                //                 })
-                //                 .catch(function (err) {
-                //                     console.log("Translate fail");
-                //                 });
-                //             await new Promise(resolve => setTimeout(resolve, 2000));
-                //         }
-                //         else {
-                //             await new Promise(resolve => setTimeout(resolve, 3000));
-                //             await artifactTranslator.translateArtifactToEnglishAll(artifact).then(async function (res) {
-                //                 var artifact_en = res;
-                //                 saveArtifact(artifact_en["organization_path_name"], 'en', artifact_en);
-                //             })
-                //                 .catch(function (err) {
-                //                     console.log("Translate to English fail");
-                //                 });
-                //             await new Promise(resolve => setTimeout(resolve, 2000));
-                //         }
+                await artifactCrawler.getArtifactsEnglish(
+                    artifact["organization_path_name"],
+                    artifact["organization_item_key"])
+                    .then(async function (artifact_en) {
+                        if (artifact_en != null) {
+                            artifact_en["image_files"] = artifact["image_files"];
+                            await artifactTranslator.translateArtifactToEnglish(artifact_en, artifact)
+                                .then(async function (res) {
+                                    artifact_en = res;
+                                    await new Promise(resolve => setTimeout(resolve, 3000));
+                                    saveArtifact(artifact_en["organization_path_name"], 'en', artifact_en);
+                                })
+                                .catch(function (err) {
+                                    console.log("Translate fail");
+                                });
+                            await new Promise(resolve => setTimeout(resolve, 2000));
+                        }
+                        else {
+                            await new Promise(resolve => setTimeout(resolve, 3000));
+                            await artifactTranslator.translateArtifactToEnglishAll(artifact).then(async function (res) {
+                                var artifact_en = res;
+                                saveArtifact(artifact_en["organization_path_name"], 'en', artifact_en);
+                            })
+                                .catch(function (err) {
+                                    console.log("Translate to English fail");
+                                });
+                            await new Promise(resolve => setTimeout(resolve, 2000));
+                        }
 
-                //     })
-                //     .catch(function (err) {
-                //         console.log("No english data for artifact " + artifact["organization_item_key"]);
-                //     })
+                    })
+                    .catch(function (err) {
+                        console.log("No english data for artifact " + artifact["organization_item_key"]);
+                    })
 
-                // // Translate data to Vietnamese
-                // await new Promise(resolve => setTimeout(resolve, 3000));
-                // await artifactTranslator.translateArtifactToVietnamese(artifact).then(async function (res) {
-                //     var artifact_vi = res;
-                //     saveArtifact(artifact_vi["organization_path_name"], 'vi', artifact_vi);
-                // })
-                //     .catch(function (err) {
-                //         console.log("Translate to Vietnamese fail");
-                //     });
+                // Translate data to Vietnamese
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                await artifactTranslator.translateArtifactToVietnamese(artifact).then(async function (res) {
+                    var artifact_vi = res;
+                    saveArtifact(artifact_vi["organization_path_name"], 'vi', artifact_vi);
+                })
+                    .catch(function (err) {
+                        console.log("Translate to Vietnamese fail");
+                    });
 
                 // Save image
                 await new Promise(resolve => setTimeout(resolve, 10000));
