@@ -1,6 +1,8 @@
 
 const { spawn } = require('child_process');
 const modelHistory = require('./modelHistory.js')
+const storageRepo = require('../../repositories/storage.js');
+
 module.exports = {
     updateTrainingImage: function (museum_name) {
         const python = spawn('python3',
@@ -28,12 +30,16 @@ module.exports = {
             return `Update model successfully!`;
         });
     },
-    updateModelHistory: async function(museum_name){
+    updateModelHistory: async function (museum_name) {
         await modelHistory.setModelHistory(museum_name);
     },
-    getHistoryModel: async function(){
+    getHistoryModel: async function () {
         var update_history = await modelHistory.getHistoryModel();
         return update_history;
+    },
+    getModel: async function () {
+        var result = await storageRepo.getModelURL();
+        return result;
     }
 
 }

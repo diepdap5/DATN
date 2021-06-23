@@ -25,7 +25,7 @@ module.exports = {
 
         });
     },
-    deleteCollections: async function (col) {
+    deleteCollections: async function (museum_id) {
         var museum_name = '';
         if(museum_id == 1){
             museum_name = 'tnm'
@@ -33,10 +33,10 @@ module.exports = {
         else if (museum_id ==2){
             museum_name = 'kyohaku'
         }
-        else if (museum_id ==2){
+        else if (museum_id ==3){
             museum_name = 'narahaku'
         }
-        else if (museum_id ==2){
+        else if (museum_id ==4){
             museum_name = 'kyuhaku'
         }
         else{
@@ -51,9 +51,9 @@ module.exports = {
              // Get the documents collection
             var dbo = client.db(DB_NAME);
             // Remove exist data in collections
-            dbo.collection(col + '_ja').deleteMany({});
-            dbo.collection(col + '_en').deleteMany({});
-            dbo.collection(col + '_vi').deleteMany({});
+            // dbo.collection(museum_name + '_ja').deleteMany({});
+            dbo.collection(museum_name + '_en').deleteMany({});
+            dbo.collection(museum_name + '_vi').deleteMany({});
 
         }
        

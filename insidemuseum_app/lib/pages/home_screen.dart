@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:insidemuseum_app/generated/l10n.dart';
 import 'package:insidemuseum_app/pages/_component/home/museum_name_component.dart';
 import 'package:insidemuseum_app/pages/museum_screen.dart';
+import 'package:insidemuseum_app/pages/update_screen.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,39 +47,65 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding:
-                  EdgeInsets.only(right: 20, left: 60, top: 20, bottom: 20),
-              child: Text(
-                S.of(context).choosingMuseum,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 30,
-                  letterSpacing: 0.27,
-                  color: DesignCourseAppTheme.nearlyBlue,
+      body: Stack(alignment: Alignment.topLeft, children: [
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                padding:
+                    EdgeInsets.only(right: 20, left: 60, top: 20, bottom: 20),
+                child: Text(
+                  S.of(context).choosingMuseum,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 30,
+                    letterSpacing: 0.27,
+                    color: DesignCourseAppTheme.nearlyBlue,
+                  ),
                 ),
               ),
-            ),
-            for (var museum in [
-              {"id": "1", "name": S.of(context).museumName1},
-              {"id": "2", "name": S.of(context).museumName2},
-              {"id": "3", "name": S.of(context).museumName3},
-              {"id": "4", "name": S.of(context).museumName4}
-            ])
-              InkWell(
-                  borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  onTap: () {
-                    onSelect(museum["id"]);
-                  },
-                  child: MuseumNameComponent(museumName: museum["name"])),
-          ],
+              for (var museum in [
+                {"id": "1", "name": S.of(context).museumName1},
+                {"id": "2", "name": S.of(context).museumName2},
+                {"id": "3", "name": S.of(context).museumName3},
+                {"id": "4", "name": S.of(context).museumName4}
+              ])
+                InkWell(
+                    borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+                    onTap: () {
+                      onSelect(museum["id"]);
+                    },
+                    child: MuseumNameComponent(museumName: museum["name"])),
+            ],
+          ),
         ),
-      ),
+        Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.only(left: 10.0, bottom: 20.0),
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.sync_rounded,
+                  size: 50,
+                  color: DesignCourseAppTheme.nearlyBlue,
+                ),
+                tooltip: 'Update model',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            UpdateModelScreen(cameras: widget.cameras),
+                      ));
+                },
+              ),
+            )),
+      ]),
       floatingActionButton: FloatingActionBubble(
         // Menu items
         items: <Bubble>[

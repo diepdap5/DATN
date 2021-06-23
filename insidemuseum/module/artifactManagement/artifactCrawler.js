@@ -5,7 +5,7 @@ const storageRepo = require('./../../repositories/storage.js');
 module.exports = {
     getArtifactsList: async function (organization_id) {
         var artifacts_arr = new Array();
-        for (let number_of_page = 1; number_of_page < 2; number_of_page++) {
+        for (let number_of_page = 1; number_of_page < 10; number_of_page++) {
             await axios({
                 method: 'get',
                 url: "https://colbase.nich.go.jp/colbaseapi/v2/collection_items?locale=ja&page="

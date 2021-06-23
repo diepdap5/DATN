@@ -40,7 +40,7 @@ class _CameraScreenState extends State<CameraScreen> {
     final String usedModel = ModalRoute.of(context).settings.arguments;
     if (_recognitions != null) {
       for (var re in _recognitions) {
-        if (re["confidence"] >= 0.4) {
+        if (re["confidence"] >= 0.3) {
           setState(() {
             // _recogResult = re["label"];
             _recogResultList.add(re);

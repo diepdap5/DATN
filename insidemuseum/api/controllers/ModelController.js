@@ -25,5 +25,9 @@ module.exports = {
     getUpdateHistory: async function (req, res){
         var update_history = await modelManager.getHistoryModel();
         res.json(update_history);
+    },
+    getModel: async function (req,res) {
+        var model_link = await modelManager.getModel();
+        res.json({"model_links" : model_link});
     }
 }

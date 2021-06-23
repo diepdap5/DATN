@@ -20,7 +20,7 @@ function transferImageToBase64(museum_name, artifact_id, image_links) {
 module.exports = {
     updateData: async function (museum_id) {
         databaseRepo.deleteCollections(museum_id)
-        storageRepo.deleteImage(museum_id)
+        // storageRepo.deleteImage(museum_id)
         await artifactCrawler.getArtifactsList(museum_id).then(async function (res) {
             console.log("Update museum with id: " + museum_id);
             artifactHistory.setUpdateHistory(museum_id);
@@ -39,13 +39,15 @@ module.exports = {
                         if (image_list.length == 0) {
                             console.log("Artifact has no images");
                         }
-                        saveArtifact(artifact["organization_path_name"], 'ja', artifact);
+                        // saveArtifact(artifact["organization_path_name"], 'ja', artifact);
                     })
                     .catch(function (err) {
                         console.log("Error when get image list");
                     })
                 await new Promise(resolve => setTimeout(resolve, 3000));
+
                 // Translate data to English
+
                 await artifactCrawler.getArtifactsEnglish(
                     artifact["organization_path_name"],
                     artifact["organization_item_key"])
@@ -82,8 +84,9 @@ module.exports = {
 
                 // Translate data to Vietnamese
                 await new Promise(resolve => setTimeout(resolve, 3000));
+                var artifact_vi = artifact;
                 await artifactTranslator.translateArtifactToVietnamese(artifact).then(async function (res) {
-                    var artifact_vi = res;
+                    artifact_vi = res;
                     saveArtifact(artifact_vi["organization_path_name"], 'vi', artifact_vi);
                 })
                     .catch(function (err) {
@@ -91,18 +94,18 @@ module.exports = {
                     });
 
                 // Save image
-                await new Promise(resolve => setTimeout(resolve, 10000));
-                for (var i = 0; i < artifact["image_files"].length; i++) {
-                    await artifactCrawler.getImage(artifact["organization_item_key"],artifact["image_files"][i])
-                        .then(async function (res) {
-                            await storageRepo.saveImage(res, artifact["organization_item_key"], artifact["image_files"][i]);
-                            // console.log('Saved image ' + artifact["organization_item_key"] + '/' + (i + 1).toString())
-                        })
-                        .catch(function (err) {
-                            console.log('Error when taking image: ' + artifact["image_files"][i])
-                            console.log(err)
-                        })
-                }
+                // await new Promise(resolve => setTimeout(resolve, 10000));
+                // for (var i = 0; i < artifact["image_files"].length; i++) {
+                //     await artifactCrawler.getImage(artifact["organization_item_key"],artifact["image_files"][i])
+                //         .then(async function (res) {
+                //             await storageRepo.saveImage(res, artifact["organization_item_key"], artifact["image_files"][i]);
+                //             // console.log('Saved image ' + artifact["organization_item_key"] + '/' + (i + 1).toString())
+                //         })
+                //         .catch(function (err) {
+                //             console.log('Error when taking image: ' + artifact["image_files"][i])
+                //             console.log(err)
+                //         })
+                // }
 
                 // 
             });

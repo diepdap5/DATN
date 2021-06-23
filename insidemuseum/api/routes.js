@@ -25,4 +25,6 @@ module.exports = function (app) {
         .get(modelCtrl.getUpdateHistory);
     app.route('/getIdByTitle/:museum_name/:artifact_title')
         .get(artifactsCtrl.getIdByTitle);
+    app.route('/getModel')
+        .get(modelCtrl.getModel);
 };

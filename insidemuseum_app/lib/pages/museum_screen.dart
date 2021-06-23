@@ -8,6 +8,7 @@ import 'package:insidemuseum_app/pages/_component/museum/artifact_list.dart';
 import 'package:insidemuseum_app/util/design_course_app_theme.dart';
 import 'package:insidemuseum_app/pages/result_screen.dart';
 import 'package:insidemuseum_app/util/web_service.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'package:tflite/tflite.dart';
 
@@ -77,14 +78,32 @@ class _MuseumScreenState extends State<MuseumScreen> {
     _streamArtifactDemoController.add(result);
   }
 
-  loadModel() async {
+  loadModel(museum) async {
+    // if (museum == "1") {
+    //   await Tflite.loadModel(
+    //       model: "assets/model_tnm.tflite", labels: "assets/class_tnm.txt");
+    // } else if (museum == "2") {
+    //   await Tflite.loadModel(
+    //       model: "assets/model_kyohaku.tflite",
+    //       labels: "assets/class_kyohaku.txt");
+    // } else if (museum == "3") {
+    //   await Tflite.loadModel(
+    //       model: "assets/model_narahaku.tflite",
+    //       labels: "assets/class_narahaku.txt");
+    // } else {
+    //   await Tflite.loadModel(
+    //       model: "assets/model_kyuhaku.tflite",
+    //       labels: "assets/class_kyuhaku.txt");
+    // }
+    var dir = await getApplicationDocumentsDirectory();
     await Tflite.loadModel(
-        model: "assets/model_kyohaku_2.tflite",
-        labels: "assets/class_kyohaku_2.txt");
+        model: "${dir.path}/model.tflite",
+        labels: "${dir.path}/label.txt",
+        isAsset: false);
   }
 
   onSelect(museum) {
-    loadModel();
+    loadModel(museum);
     Navigator.push(
         context,
         MaterialPageRoute(

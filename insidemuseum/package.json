@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^5.8.2",
-    "@vitalets/google-translate-api": "^5.1.0",
+    "@vitalets/google-translate-api": "7.0.0",
     "axios": "^0.21.1",
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "express": "^4.17.1",
     "firebase": "^8.2.10",
     "firebase-admin": "^9.5.0",
@@ -26,7 +26,9 @@
     "google-translate-api": "^2.3.0",
     "mongodb": "^3.6.7",
     "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
     "python-shell": "^3.0.0",
+    "translate": "^1.2.3",
     "tunnel": "0.0.6"
   }
 }
