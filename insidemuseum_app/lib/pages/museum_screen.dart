@@ -79,27 +79,27 @@ class _MuseumScreenState extends State<MuseumScreen> {
   }
 
   loadModel(museum) async {
-    // if (museum == "1") {
-    //   await Tflite.loadModel(
-    //       model: "assets/model_tnm.tflite", labels: "assets/class_tnm.txt");
-    // } else if (museum == "2") {
-    //   await Tflite.loadModel(
-    //       model: "assets/model_kyohaku.tflite",
-    //       labels: "assets/class_kyohaku.txt");
-    // } else if (museum == "3") {
-    //   await Tflite.loadModel(
-    //       model: "assets/model_narahaku.tflite",
-    //       labels: "assets/class_narahaku.txt");
-    // } else {
-    //   await Tflite.loadModel(
-    //       model: "assets/model_kyuhaku.tflite",
-    //       labels: "assets/class_kyuhaku.txt");
-    // }
-    var dir = await getApplicationDocumentsDirectory();
-    await Tflite.loadModel(
-        model: "${dir.path}/model.tflite",
-        labels: "${dir.path}/label.txt",
-        isAsset: false);
+    if (museum == "1") {
+      await Tflite.loadModel(
+          model: "assets/model_tnm.tflite", labels: "assets/class_tnm.txt");
+    } else if (museum == "2") {
+      await Tflite.loadModel(
+          model: "assets/model_kyohaku.tflite",
+          labels: "assets/class_kyohaku.txt");
+    } else if (museum == "3") {
+      await Tflite.loadModel(
+          model: "assets/model_narahaku.tflite",
+          labels: "assets/class_narahaku.txt");
+    } else {
+      await Tflite.loadModel(
+          model: "assets/model_kyuhaku.tflite",
+          labels: "assets/class_kyuhaku.txt");
+    }
+    // var dir = await getApplicationDocumentsDirectory();
+    // await Tflite.loadModel(
+    //     model: "${dir.path}/model_kyohaku.tflite",
+    //     labels: "${dir.path}/label_kyohaku.txt",
+    //     isAsset: false);
   }
 
   onSelect(museum) {

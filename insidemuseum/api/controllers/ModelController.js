@@ -1,8 +1,4 @@
 'use strict'
-// MongoDB
-var mongodb = require('mongodb');
-var MongoClient = mongodb.MongoClient;
-var url = "mongodb://localhost:27017/";
 const modelManager = require("../../module/modelManagement/modelManager.js");
 
 module.exports = {

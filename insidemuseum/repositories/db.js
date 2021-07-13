@@ -25,21 +25,57 @@ module.exports = {
 
         });
     },
-    deleteCollections: async function (museum_id) {
-        var museum_name = '';
-        if(museum_id == 1){
-            museum_name = 'tnm'
+    checkExist: async function(museum, locale ,artifact){
+        const client = await MongoClient.connect(url, { useNewUrlParser: true })
+            .catch(err => { console.log(err); });
+        if (!client) {
+            return;
         }
-        else if (museum_id ==2){
-            museum_name = 'kyohaku'
-        }
-        else if (museum_id ==3){
-            museum_name = 'narahaku'
-        }
-        else if (museum_id ==4){
-            museum_name = 'kyuhaku'
+        var dbo = client.db(DB_NAME);
+        if ((await dbo.collection(museum + '_' + locale).find({ 'organization_item_key': artifact["organization_item_key"] }).toArray()).length == 0) {
+            return false;
         }
         else{
+            return true;
+        }
+
+    },
+    savePart: async function (col, artifact) {
+        const client = await MongoClient.connect(url, { useNewUrlParser: true })
+            .catch(err => { console.log(err); });
+        if (!client) {
+            return;
+        }
+
+        // Get the documents collection
+        var dbo = client.db(DB_NAME);
+        // Insert all data in collections
+        if ((await dbo.collection(col).find({ 'organization_item_key': artifact["organization_item_key"] }).toArray()).length == 0) {
+            dbo.collection(col).insertOne(artifact, function (err, result) {
+                if (err) {
+                    console.log("Error insert: " + col + '/' + artifact["organization_item_key"]);
+                } else {
+                    console.log('Updated ' + col + '/' + artifact["organization_item_key"]);
+                }
+
+            });
+        }
+    },
+    deleteCollections: async function (museum_id) {
+        var museum_name = '';
+        if (museum_id == 1) {
+            museum_name = 'tnm'
+        }
+        else if (museum_id == 2) {
+            museum_name = 'kyohaku'
+        }
+        else if (museum_id == 3) {
+            museum_name = 'narahaku'
+        }
+        else if (museum_id == 4) {
+            museum_name = 'kyuhaku'
+        }
+        else {
             museum_name = ''
         }
         const client = await MongoClient.connect(url, { useNewUrlParser: true })
@@ -47,16 +83,16 @@ module.exports = {
         if (!client) {
             return;
         }
-        if (museum_name != ''){
-             // Get the documents collection
+        if (museum_name != '') {
+            // Get the documents collection
             var dbo = client.db(DB_NAME);
             // Remove exist data in collections
-            // dbo.collection(museum_name + '_ja').deleteMany({});
+            dbo.collection(museum_name + '_ja').deleteMany({});
             dbo.collection(museum_name + '_en').deleteMany({});
             dbo.collection(museum_name + '_vi').deleteMany({});
 
         }
-       
+
     },
 
     getLocaleCollection: async function (locale) {

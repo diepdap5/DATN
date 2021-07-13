@@ -16,9 +16,9 @@ class UpdateModelScreen extends StatefulWidget {
 
 class _UpdateModelScreenState extends State<UpdateModelScreen> {
   var imageUrl =
-      "https://firebasestorage.googleapis.com/v0/b/insidemuseum-30c0a.appspot.com/o/model_kyohaku_3.tflite?alt=media&token=362a0a10-4577-4eaa-8e88-efc8a5bd6613";
+      "https://firebasestorage.googleapis.com/v0/b/insidemuseum-30c0a.appspot.com/o/model_kyohaku.tflite?alt=media&token=01e06028-2211-4298-af21-cc6a6887ddec";
   var imageUrl2 =
-      "https://firebasestorage.googleapis.com/v0/b/insidemuseum-30c0a.appspot.com/o/label.txt?alt=media&token=322aa6b1-6918-4219-b33d-854b6477ed01";
+      "https://firebasestorage.googleapis.com/v0/b/insidemuseum-30c0a.appspot.com/o/class_kyohaku.txt?alt=media&token=fc8dfeba-8e56-4f18-ad24-1ce9d646c08f";
   bool downloading = true;
   String downloadingStr = "Downloading";
   double download = 0.0;
@@ -35,8 +35,8 @@ class _UpdateModelScreenState extends State<UpdateModelScreen> {
     try {
       Dio dio = Dio();
       var dir = await getApplicationDocumentsDirectory();
-      String fileName = 'model.tflite';
-      String fileName2 = 'label.txt';
+      String fileName = 'model_kyohaku.tflite';
+      String fileName2 = 'label_kyohaku.txt';
       f1 = File("${dir.path}/$fileName");
       f2 = File("${dir.path}/$fileName2");
       var fileExist = await f1.exists();
@@ -88,8 +88,8 @@ class _UpdateModelScreenState extends State<UpdateModelScreen> {
 
   Future _delete() async {
     var dir = await getApplicationDocumentsDirectory();
-    f1 = File("${dir.path}/model.tflite");
-    f2 = File("${dir.path}/label.txt");
+    f1 = File("${dir.path}/model_kyohaku.tflite");
+    f2 = File("${dir.path}/label_kyohaku.txt");
     await f1.delete();
     await f2.delete();
     print(dir.path);

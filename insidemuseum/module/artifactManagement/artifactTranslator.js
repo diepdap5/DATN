@@ -32,7 +32,7 @@ module.exports = {
     },
     translateArtifactToVietnamese: async function (artifact_ja) {
         var artifact_vi = artifact_ja;
-        artifact_vi["locale"] = 'vi'
+        artifact_vi["locale"] = 'vi';
         // Translate description
         await translate(artifact_ja["descriptions"][0]["text"], { from: 'ja', to: 'vi' ,agent: agentConfig})
             .then((res) => {
@@ -40,7 +40,7 @@ module.exports = {
                 artifact_vi["descriptions"][0]["text"] = res.text;
                 artifact_vi["descriptions"][0]["locale"] = 'vi';
             }).catch(err => {
-                console.log("Error translation vietnamese: "+ artifact_ja["organization_item_key"]);
+                // console.log("Error translation vietnamese: "+ artifact_ja["organization_item_key"]);
             });
         // Title 
         if (artifact_ja["title"] != null) {
@@ -48,8 +48,8 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["title"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
-                    console.log(err);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log(err);
                 });
         }
 
@@ -59,7 +59,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["bunkazai"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // Bunrui 
@@ -68,7 +68,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["bunrui"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // insuu 
@@ -77,7 +77,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["insuu"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // seisakuchi 
@@ -86,7 +86,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["seisakuchi"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // jidai_seiki 
@@ -95,7 +95,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["jidai_seiki"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // sakusha 
@@ -104,7 +104,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["sakusha"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // hinshitu_keijo 
@@ -113,7 +113,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["hinshitu_keijo"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // houryo 
@@ -122,7 +122,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["houryo"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
         // organization_title
@@ -131,7 +131,7 @@ module.exports = {
                 .then((res) => {
                     artifact_vi["organization_title"] = res.text;
                 }).catch(err => {
-                    console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
+                    // console.log("Error translation vietnamese: " + artifact_ja["organization_item_key"]);
                 });
         }
 
@@ -139,7 +139,7 @@ module.exports = {
     },
     translateArtifactToEnglishAll: async function (artifact_ja) {
         var artifact_en = artifact_ja;
-        artifact_en["locale"] = 'en'
+        artifact_en["locale"] = 'en';
         // Translate description
         await translate(artifact_ja["descriptions"][0]["text"], { from: 'ja', to: 'en',agent: agentConfig })
             .then((res) => {
